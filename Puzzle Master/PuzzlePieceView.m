@@ -5,6 +5,7 @@
 //  Created by Chris Lockwood on 10/28/14.
 //  Copyright (c) 2014 Chris Lockwood. All rights reserved.
 //
+//  This class iplements the PuzzlePieceView UI object.
 
 #import "PuzzlePieceView.h"
 
@@ -15,15 +16,9 @@
 @property (nonatomic) NSUInteger widthNum;
 @property (nonatomic) NSUInteger heightNum;
 @property (nonatomic) NSUInteger *edgeIndicies;
+@property (strong, nonatomic) NSSet *connectedPieces;
 
 @property (nonatomic) CGPoint oldCenter;
-
-@end
-
-@interface PuzzlePieceView()
-//
-//@property (nonatomic) NSUInteger widthIndex;
-//@property (nonatomic) NSUInteger heightIndex;
 
 @end
 
@@ -46,7 +41,9 @@
                 withWidthNum:(NSUInteger)widthNum
                withHeightNum:(NSUInteger)heightNum
             withEdgeIndicies:(NSUInteger *)edgeIndicies {
+    
     self = [super initWithFrame:frame];
+    
     self.widthIndex = widthIndex;
     self.heightIndex = heightIndex;
     self.widthNum = widthNum;
@@ -57,7 +54,6 @@
     
     return self;
 }
-
 
 -(void)setUp {
     [self displayPuzzlePieceImage];
@@ -70,6 +66,7 @@
                                       self.heightIndex * -1.0 * self.frame.size.height,
                                       self.frame.size.width * self.widthNum,
                                       self.frame.size.height * self.heightNum)];
+    
     CAShapeLayer *mask = [CAShapeLayer layer];
     
     //This UIBezierPath determines the shape of the puzzle piece
@@ -81,13 +78,6 @@
     [contentLayer setMask:mask];
     
     [[self layer]addSublayer:contentLayer];
-    
-    
-    //Still Implementing: Stroke Color Stuff
-//    [[UIColor blackColor] setStroke];
-//    [path strokeWithBlendMode:kCGBlendModeHue alpha:1];
-//    
-//    UIBezierPath *strokePath = [path ]
 }
 
 -(UIBezierPath *)createPath {
@@ -249,28 +239,114 @@
     return 4;
 }
 
+-(NSSet *)connectedPieces {
+    if (!_connectedPieces) {
+        _connectedPieces = [NSSet setWithObjects:self, nil];
+    }
+    
+    return _connectedPieces;
+}
 
 
-#pragma mark - Actions
+
+#pragma mark - Matching Methods
+
+double MARGIN_OF_MATCHING_ERROR = .3;
+
+-(CGPoint) neighborPointUp { return CGPointMake(self.center.x, self.center.y - self.frame.size.height); }
+-(CGPoint) neighborPointRight { return CGPointMake(self.center.x  + self.frame.size.width, self.center.y); }
+-(CGPoint) neighborPointDown { return CGPointMake(self.center.x, self.center.y + self.frame.size.height); }
+-(CGPoint) neighborPointLeft { return CGPointMake(self.center.x  - self.frame.size.width, self.center.y); }
+
+-(NSUInteger)checkIfMatched:(PuzzlePieceView *)piece {
+    
+    CGRect bounds = CGRectMake(piece.center.x - piece.frame.size.width * MARGIN_OF_MATCHING_ERROR / 2,  piece.center.y - piece.frame.size.height * MARGIN_OF_MATCHING_ERROR / 2, piece.frame.size.width * MARGIN_OF_MATCHING_ERROR, piece.frame.size.height * MARGIN_OF_MATCHING_ERROR);
+    
+    NSUInteger directionIndex = 1;
+    for (NSValue *pointValue in @[[NSValue valueWithCGPoint:[self neighborPointUp]],
+                            [NSValue valueWithCGPoint:[self neighborPointRight]],
+                            [NSValue valueWithCGPoint:[self neighborPointDown]],
+                            [NSValue valueWithCGPoint:[self neighborPointLeft]]]) {
+        if (CGRectContainsPoint(bounds, [pointValue CGPointValue])) {
+            return directionIndex;
+        }
+        directionIndex++;
+    }
+    
+    return 0;
+}
+
+-(void)connectPiece:(PuzzlePieceView *)piece withLocation:(NSUInteger)locationIndex {
+    
+    CGPoint neighborPoint;
+    
+    switch (locationIndex) {
+        case 1:
+            neighborPoint = [self neighborPointUp];
+            break;
+            
+        case 2:
+            neighborPoint = [self neighborPointRight];
+            break;
+            
+        case 3:
+            neighborPoint = [self neighborPointDown];
+            break;
+            
+        case 4:
+            neighborPoint = [self neighborPointLeft];
+            
+        default:
+            break;
+    }
+    
+    CGPoint translation = CGPointMake(neighborPoint.x - piece.center.x, neighborPoint.y - piece.center.y);
+    
+    for (PuzzlePieceView *movingPiece in piece.connectedPieces) {
+        [piece recenter];
+        [movingPiece movePiece:translation];
+    }
+    
+    NSSet *newlyConnectedPieces = [self.connectedPieces setByAddingObjectsFromSet:piece.connectedPieces];
+    
+    for (PuzzlePieceView *connectedPiece in newlyConnectedPieces) {
+        connectedPiece.connectedPieces = newlyConnectedPieces;
+    }
+}
+
+
+
+#pragma mark - Gesture Recognizers
 
 -(void)detectDrag:(UIPanGestureRecognizer *)panGestureRecognizer {
     
     CGPoint translation = [panGestureRecognizer translationInView:self.superview];
-    self.center = CGPointMake(translation.x + self.oldCenter.x,
-                              translation.y + self.oldCenter.y);
+
+    [self movePiece:translation];
     
+    for (PuzzlePieceView *piece in self.connectedPieces) {
+        [piece movePiece:translation];
+    }
 }
 
-// Sets old center upon being touched and moves piece to the front of the subivews in ViewController
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+-(void)movePiece:(CGPoint)translation {
+    self.center = CGPointMake(translation.x + self.oldCenter.x,
+                              translation.y + self.oldCenter.y);
+}
+
+// Sets old center upon being touched and moves piece and all connected pieces to the front of the subivews in the Superview
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self.superview bringSubviewToFront:self];
-    
+    for (PuzzlePieceView *piece in self.connectedPieces) {
+        [piece.superview bringSubviewToFront:piece];
+        [piece recenter];
+    }
+}
+
+-(void)recenter {
     self.oldCenter = self.center;
 }
 
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
+
 
 @end
