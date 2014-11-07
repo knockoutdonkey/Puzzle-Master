@@ -13,9 +13,8 @@
 
 @property (nonatomic, readonly) NSUInteger widthIndex;
 @property (nonatomic, readonly) NSUInteger heightIndex;
-@property (nonatomic, readonly) NSUInteger widthNum;
-@property (nonatomic, readonly) NSUInteger heightNum;
 @property (nonatomic, readonly) NSUInteger *edgeIndicies;
+@property (strong, nonatomic) NSMutableArray *neighborPieces;
 
 @property (nonatomic,strong) id delegate;
 
@@ -28,7 +27,7 @@
             withEdgeIndicies:(NSUInteger *)edgeIndicies;
 
 // Matching Methods
--(NSUInteger)checkIfMatched:(PuzzlePieceView *)piece;
+-(NSUInteger)checkIfMatched:(PuzzlePieceView *)piece    withLocation:(NSUInteger)locationIndex;
 -(void)connectPiece:(PuzzlePieceView *)piece withLocation:(NSUInteger)locationIndex;
 
 // Puzzle Piece Information Methods

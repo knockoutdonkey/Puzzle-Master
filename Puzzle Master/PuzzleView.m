@@ -77,6 +77,32 @@ double AMOUNT_OF_HEIGHT_USED = .5;
             [self.pieces addObject:piece];
         }
     }
+    
+    for (NSUInteger heightIndex = 0; heightIndex < self.heightNum; heightIndex++) {
+        for (NSUInteger widthIndex = 0; widthIndex < self.widthNum; widthIndex++) {
+            PuzzlePieceView *piece = (PuzzlePieceView *)self.pieces[widthIndex + heightIndex * self.heightNum];
+            if (heightIndex > 0) {
+                [piece.neighborPieces addObject: self.pieces[widthIndex + (heightIndex - 1) * self.widthNum]];
+            } else {
+                [piece.neighborPieces addObject:piece];
+            }
+            if (widthIndex < self.widthNum - 1) {
+                [piece.neighborPieces addObject: self.pieces[widthIndex + 1 + heightIndex * self.widthNum]];
+            } else {
+                [piece.neighborPieces addObject:piece];
+            }
+            if (heightIndex < self.heightNum - 1) {
+                [piece.neighborPieces addObject: self.pieces[widthIndex + (heightIndex + 1) * self.widthNum]];
+            } else {
+                [piece.neighborPieces addObject:piece];
+            }
+            if (widthIndex > 0) {
+                [piece.neighborPieces addObject: self.pieces[widthIndex - 1 + heightIndex * self.widthNum]];
+            } else {
+                [piece.neighborPieces addObject:piece];
+            }
+        }
+    }
 }
 
 -(void)randomlyMovePieces {
@@ -106,6 +132,17 @@ double AMOUNT_OF_HEIGHT_USED = .5;
     }
     
     return _pieces;
+}
+
+
+
+#pragma mark - Puzzle Functions
+
+-(void)restartPuzzle {
+    self.pieces = nil;
+    
+    [self createPieces];
+    [self randomlyMovePieces];
 }
 
 @end
