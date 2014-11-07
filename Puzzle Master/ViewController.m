@@ -22,10 +22,12 @@
 #pragma mark - Instantiation
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     [self createPieces];
     [self randomlyMovePieces];
+    
 }
 
 NSUInteger PIECE_WIDTH = 4;
@@ -70,6 +72,7 @@ double WIDTH_HEIGHT_RATIO = .8;
                 verticalEdgeArray[widthIndex][heightIndex]};
             
             PuzzlePieceView *piece = [[PuzzlePieceView alloc] initWithFrame:CGRectMake([self pieceWidth]* widthIndex, [self pieceHeight] * heightIndex, [self pieceWidth], [self pieceHeight]) withWidthIndex:widthIndex withHeightIndex:heightIndex withWidthNum:PIECE_WIDTH withHeightNum:PIECE_HEIGHT withEdgeIndicies:edgeIndicies];
+            piece.delegate = self;
             [self.view addSubview:piece];
             [self.pieces addObject:piece];
         }
@@ -95,7 +98,7 @@ double WIDTH_HEIGHT_RATIO = .8;
 
 
 
-#pragma mark - Memeory Management
+#pragma mark - Memory Management
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -104,6 +107,7 @@ double WIDTH_HEIGHT_RATIO = .8;
 
 
 
+// Note: Move this to instantiation section
 #pragma mark - Setters and Getters
 
 - (NSMutableArray *)pieces {
