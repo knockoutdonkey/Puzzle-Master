@@ -341,11 +341,13 @@ double MARGIN_OF_MATCHING_ERROR = .3;
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (NSUInteger edgeIndex = 0; edgeIndex < 4; edgeIndex ++) {
-        PuzzlePieceView *neighborPiece = (PuzzlePieceView *)self.neighborPieces[edgeIndex];
-        
-        if ([self checkIfMatched:neighborPiece withLocation:edgeIndex]) {
-            [self connectPiece:neighborPiece withLocation:edgeIndex];
+    for (PuzzlePieceView *connectedPiece in self.connectedPieces) {
+        for (NSUInteger edgeIndex = 0; edgeIndex < 4; edgeIndex ++) {
+            PuzzlePieceView *neighborPiece = (PuzzlePieceView *)connectedPiece.neighborPieces[edgeIndex];
+            
+            if ([connectedPiece checkIfMatched:neighborPiece withLocation:edgeIndex]) {
+                [connectedPiece connectPiece:neighborPiece withLocation:edgeIndex];
+            }
         }
     }
 }
