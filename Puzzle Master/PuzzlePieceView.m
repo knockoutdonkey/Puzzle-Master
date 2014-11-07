@@ -17,6 +17,7 @@
 @property (nonatomic) NSUInteger heightNum;
 @property (nonatomic) NSUInteger *edgeIndicies;
 @property (strong, nonatomic) NSSet *connectedPieces;
+@property (strong, nonatomic) NSSet *neighborPieces;
 
 @property (nonatomic) CGPoint oldCenter;
 
