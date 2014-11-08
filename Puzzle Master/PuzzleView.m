@@ -26,10 +26,29 @@
     self.widthNum = widthNum;
     self.heightNum = heightNum;
     
-    [self createPieces];
-    [self randomlyMovePieces];
+    [self setUp];
     
     return self;
+}
+
+NSUInteger const DEFAULT_WIDTH_NUM = 5;
+NSUInteger const DEFAULT_HEIGHT_NUM = 5;
+
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    
+    self.widthNum = DEFAULT_WIDTH_NUM;
+    self.heightNum = DEFAULT_HEIGHT_NUM;
+    
+    [self setUp];
+}
+
+-(void)setUp{
+    self.backgroundColor = [UIColor clearColor];
+    self.opaque = NO;
+    
+    [self createPieces];
+    [self randomlyMovePieces];
 }
 
 double AMOUNT_OF_HEIGHT_USED = .5;
@@ -40,7 +59,7 @@ double AMOUNT_OF_HEIGHT_USED = .5;
 -(void)createPieces {
     
     // Note: Remeber to change the number of edge types to depend on pieces
-    NSUInteger NUMBER_OF_EDGE_TYPES = 4;
+    NSUInteger NUMBER_OF_EDGE_TYPES = [PuzzlePieceView numberOfEdgeTypes];
     
     NSUInteger verticalEdgeArray[self.widthNum + 1][self.heightNum];
     for (NSUInteger heightIndex = 0; heightIndex < self.heightNum; heightIndex++) {
@@ -75,6 +94,8 @@ double AMOUNT_OF_HEIGHT_USED = .5;
             piece.delegate = self;
             [self addSubview:piece];
             [self.pieces addObject:piece];
+            
+            [piece addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(detectDrag:)]];
         }
     }
     
@@ -139,10 +160,43 @@ double AMOUNT_OF_HEIGHT_USED = .5;
 #pragma mark - Puzzle Functions
 
 -(void)restartPuzzle {
+    for (PuzzlePieceView *piece in self.pieces) {
+        piece.neighborPieces = nil;
+        piece.connectedPieces = nil;
+        [piece removeFromSuperview];
+    }
     self.pieces = nil;
     
     [self createPieces];
     [self randomlyMovePieces];
+}
+
+-(void)checkForCompletion {
+    if ([((PuzzlePieceView *)self.pieces[0]).connectedPieces count] == self.widthNum * self.heightNum) {
+        [self puzzleComplete];
+    }
+}
+
+-(void)puzzleComplete {
+    [self restartPuzzle];
+}
+
+
+
+#pragma mark - Puzzle Actions
+
+-(void)detectDrag:(UIPanGestureRecognizer *)panGestureRecognizer {
+    PuzzlePieceView *selectedPiece = (PuzzlePieceView *)panGestureRecognizer.view;
+    
+    CGPoint translation = [panGestureRecognizer translationInView:self];
+    [selectedPiece moveWithConnectedPiece:translation];
+    
+    panGestureRecognizer.cancelsTouchesInView = NO;
+    
+    if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [selectedPiece checkForNewMatches];
+        [self checkForCompletion];
+    }
 }
 
 @end

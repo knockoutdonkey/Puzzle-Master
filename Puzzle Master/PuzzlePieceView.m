@@ -18,7 +18,6 @@
 @property (nonatomic) NSUInteger widthNum;
 @property (nonatomic) NSUInteger heightNum;
 @property (nonatomic) NSUInteger *edgeIndicies;
-@property (strong, nonatomic) NSSet *connectedPieces;
 
 @property (nonatomic) CGPoint oldCenter;
 
@@ -59,7 +58,7 @@
 
 -(void)setUp {
     [self displayPuzzlePieceImage];
-    [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(detectDrag:)]];
+    // [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(detectDrag:)]];
 }
 
 -(void)displayPuzzlePieceImage {
@@ -107,7 +106,8 @@
     return path;
 }
 
-// Warning: When The Height does not match the width, the proportion of the curves might be strange
+/* Warning: When The Height does not match the width, the proportion of the curves might be strange. If you want to implement more edge types, make sure to also increase the return value of the numberOfEdgeTypes method */
+
 -(UIBezierPath *)puzzleEdgeToPath:(UIBezierPath *)path
                         withIndex:(NSUInteger)pathIndex
                 withStartingPoint:(CGPoint)startPoint
@@ -253,7 +253,6 @@
     return _connectedPieces;
 }
 
-
 -(NSMutableArray *)neighborPieces {
     if (!_neighborPieces) {
         _neighborPieces = [NSMutableArray array];
@@ -311,19 +310,12 @@ double MARGIN_OF_MATCHING_ERROR = .3;
 
 
 
-#pragma mark - Gesture Recognizers
+#pragma mark - Movement Methods
 
--(void)detectDrag:(UIPanGestureRecognizer *)panGestureRecognizer {
-    
-    CGPoint translation = [panGestureRecognizer translationInView:self.superview];
-
-    [self movePiece:translation];
-    
+-(void)moveWithConnectedPiece:(CGPoint)translation {
     for (PuzzlePieceView *piece in self.connectedPieces) {
         [piece movePiece:translation];
     }
-    
-    panGestureRecognizer.cancelsTouchesInView = NO;
 }
 
 -(void)movePiece:(CGPoint)translation {
@@ -331,16 +323,7 @@ double MARGIN_OF_MATCHING_ERROR = .3;
                               translation.y + self.oldCenter.y);
 }
 
-// Sets old center upon being touched and moves piece and all connected pieces to the front of the subivews in the Superview
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    for (PuzzlePieceView *piece in self.connectedPieces) {
-        [piece.superview bringSubviewToFront:piece];
-        [piece recenter];
-    }
-}
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+-(void)checkForNewMatches {
     for (PuzzlePieceView *connectedPiece in self.connectedPieces) {
         for (NSUInteger edgeIndex = 0; edgeIndex < 4; edgeIndex ++) {
             PuzzlePieceView *neighborPiece = (PuzzlePieceView *)connectedPiece.neighborPieces[edgeIndex];
@@ -349,6 +332,19 @@ double MARGIN_OF_MATCHING_ERROR = .3;
                 [connectedPiece connectPiece:neighborPiece withLocation:edgeIndex];
             }
         }
+    }
+}
+
+// Sets old center upon being touched and moves piece and all connected pieces to the front of the subivews in the Superview
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self selectPiece];
+}
+
+-(void)selectPiece {
+    for (PuzzlePieceView *piece in self.connectedPieces) {
+        [piece.superview bringSubviewToFront:piece];
+        [piece recenter];
     }
 }
 
