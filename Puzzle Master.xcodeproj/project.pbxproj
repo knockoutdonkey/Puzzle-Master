@@ -7,13 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		83050EA71A0EA4E200F25BF5 /* PieceNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83050EA61A0EA4E200F25BF5 /* PieceNumberView.m */; };
+		834642141A0DB23E00B7AFA6 /* ResetButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642131A0DB23E00B7AFA6 /* ResetButton.m */; };
+		834642171A0DB38400B7AFA6 /* SettingsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642161A0DB38400B7AFA6 /* SettingsButton.m */; };
+		8346421A1A0E0EE400B7AFA6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642191A0E0EE400B7AFA6 /* SettingsViewController.m */; };
+		835568441A0C9E830040C6EE /* Megaman_2_title_theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 835568431A0C9E830040C6EE /* Megaman_2_title_theme.mp3 */; };
+		835568471A0CA01B0040C6EE /* PuzzleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 835568461A0CA01B0040C6EE /* PuzzleView.m */; };
+		83B5A33C1A0D5E5500692839 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */; };
 		83D69B981A00332000559CBD /* PuzzlePieceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D69B971A00332000559CBD /* PuzzlePieceView.m */; };
 		83EE4BB219F9781500D44A29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EE4BB119F9781500D44A29 /* main.m */; };
 		83EE4BB519F9781500D44A29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EE4BB419F9781500D44A29 /* AppDelegate.m */; };
 		83EE4BB819F9781500D44A29 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EE4BB719F9781500D44A29 /* ViewController.m */; };
 		83EE4BBB19F9781500D44A29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83EE4BB919F9781500D44A29 /* Main.storyboard */; };
 		83EE4BBD19F9781500D44A29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83EE4BBC19F9781500D44A29 /* Images.xcassets */; };
-		83EE4BC019F9781600D44A29 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83EE4BBE19F9781600D44A29 /* LaunchScreen.xib */; };
 		83EE4BCC19F9781600D44A29 /* Puzzle_MasterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EE4BCB19F9781600D44A29 /* Puzzle_MasterTests.m */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +34,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		83050EA51A0EA4E200F25BF5 /* PieceNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceNumberView.h; sourceTree = "<group>"; };
+		83050EA61A0EA4E200F25BF5 /* PieceNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceNumberView.m; sourceTree = "<group>"; };
+		834642121A0DB23E00B7AFA6 /* ResetButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetButton.h; sourceTree = "<group>"; };
+		834642131A0DB23E00B7AFA6 /* ResetButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetButton.m; sourceTree = "<group>"; };
+		834642151A0DB38400B7AFA6 /* SettingsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsButton.h; sourceTree = "<group>"; };
+		834642161A0DB38400B7AFA6 /* SettingsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsButton.m; sourceTree = "<group>"; };
+		834642181A0E0EE400B7AFA6 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		834642191A0E0EE400B7AFA6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		835568431A0C9E830040C6EE /* Megaman_2_title_theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Megaman_2_title_theme.mp3; sourceTree = "<group>"; };
+		835568451A0CA01B0040C6EE /* PuzzleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleView.h; sourceTree = "<group>"; };
+		835568461A0CA01B0040C6EE /* PuzzleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleView.m; sourceTree = "<group>"; };
+		83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83D69B961A00332000559CBD /* PuzzlePieceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzlePieceView.h; sourceTree = "<group>"; };
 		83D69B971A00332000559CBD /* PuzzlePieceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzlePieceView.m; sourceTree = "<group>"; };
 		83EE4BAC19F9781500D44A29 /* Puzzle Master.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Puzzle Master.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,7 +57,6 @@
 		83EE4BB719F9781500D44A29 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		83EE4BBA19F9781500D44A29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		83EE4BBC19F9781500D44A29 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		83EE4BBF19F9781600D44A29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		83EE4BC519F9781600D44A29 /* Puzzle MasterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Puzzle MasterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83EE4BCA19F9781600D44A29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83EE4BCB19F9781600D44A29 /* Puzzle_MasterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Puzzle_MasterTests.m; sourceTree = "<group>"; };
@@ -87,10 +104,20 @@
 				83EE4BB919F9781500D44A29 /* Main.storyboard */,
 				83EE4BB619F9781500D44A29 /* ViewController.h */,
 				83EE4BB719F9781500D44A29 /* ViewController.m */,
+				835568451A0CA01B0040C6EE /* PuzzleView.h */,
+				835568461A0CA01B0040C6EE /* PuzzleView.m */,
 				83D69B961A00332000559CBD /* PuzzlePieceView.h */,
 				83D69B971A00332000559CBD /* PuzzlePieceView.m */,
+				834642121A0DB23E00B7AFA6 /* ResetButton.h */,
+				834642131A0DB23E00B7AFA6 /* ResetButton.m */,
+				834642151A0DB38400B7AFA6 /* SettingsButton.h */,
+				834642161A0DB38400B7AFA6 /* SettingsButton.m */,
+				834642181A0E0EE400B7AFA6 /* SettingsViewController.h */,
+				834642191A0E0EE400B7AFA6 /* SettingsViewController.m */,
+				83050EA51A0EA4E200F25BF5 /* PieceNumberView.h */,
+				83050EA61A0EA4E200F25BF5 /* PieceNumberView.m */,
 				83EE4BBC19F9781500D44A29 /* Images.xcassets */,
-				83EE4BBE19F9781600D44A29 /* LaunchScreen.xib */,
+				83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */,
 				83EE4BAF19F9781500D44A29 /* Supporting Files */,
 			);
 			path = "Puzzle Master";
@@ -99,6 +126,7 @@
 		83EE4BAF19F9781500D44A29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				835568431A0C9E830040C6EE /* Megaman_2_title_theme.mp3 */,
 				83EE4BB319F9781500D44A29 /* AppDelegate.h */,
 				83EE4BB419F9781500D44A29 /* AppDelegate.m */,
 				83EE4BB019F9781500D44A29 /* Info.plist */,
@@ -173,6 +201,7 @@
 				TargetAttributes = {
 					83EE4BAB19F9781500D44A29 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = GGL2LS5A87;
 					};
 					83EE4BC419F9781600D44A29 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -205,7 +234,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				83EE4BBB19F9781500D44A29 /* Main.storyboard in Resources */,
-				83EE4BC019F9781600D44A29 /* LaunchScreen.xib in Resources */,
+				835568441A0C9E830040C6EE /* Megaman_2_title_theme.mp3 in Resources */,
+				83B5A33C1A0D5E5500692839 /* LaunchScreen.storyboard in Resources */,
 				83EE4BBD19F9781500D44A29 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,9 +255,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				83D69B981A00332000559CBD /* PuzzlePieceView.m in Sources */,
+				83050EA71A0EA4E200F25BF5 /* PieceNumberView.m in Sources */,
+				835568471A0CA01B0040C6EE /* PuzzleView.m in Sources */,
 				83EE4BB819F9781500D44A29 /* ViewController.m in Sources */,
+				8346421A1A0E0EE400B7AFA6 /* SettingsViewController.m in Sources */,
 				83EE4BB519F9781500D44A29 /* AppDelegate.m in Sources */,
+				834642171A0DB38400B7AFA6 /* SettingsButton.m in Sources */,
 				83EE4BB219F9781500D44A29 /* main.m in Sources */,
+				834642141A0DB23E00B7AFA6 /* ResetButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,14 +291,6 @@
 				83EE4BBA19F9781500D44A29 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		83EE4BBE19F9781600D44A29 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83EE4BBF19F9781600D44A29 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
