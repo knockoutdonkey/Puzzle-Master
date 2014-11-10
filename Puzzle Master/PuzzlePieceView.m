@@ -7,8 +7,6 @@
 //
 //  This class iplements the PuzzlePieceView UI object.
 
-#import <AVFoundation/AVAudioPlayer.h>
-
 #import "PuzzlePieceView.h"
 
 @interface PuzzlePieceView ()
@@ -18,6 +16,7 @@
 @property (nonatomic) NSUInteger widthNum;
 @property (nonatomic) NSUInteger heightNum;
 @property (nonatomic) NSUInteger *edgeIndicies;
+@property (strong, nonatomic) NSSet *connectedPieces;
 
 @property (nonatomic) CGPoint oldCenter;
 
@@ -58,7 +57,7 @@
 
 -(void)setUp {
     [self displayPuzzlePieceImage];
-    // [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(detectDrag:)]];
+    [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(detectDrag:)]];
 }
 
 -(void)displayPuzzlePieceImage {
@@ -106,8 +105,7 @@
     return path;
 }
 
-/* Warning: When The Height does not match the width, the proportion of the curves might be strange. If you want to implement more edge types, make sure to also increase the return value of the numberOfEdgeTypes method */
-
+// Warning: When The Height does not match the width, the proportion of the curves might be strange
 -(UIBezierPath *)puzzleEdgeToPath:(UIBezierPath *)path
                         withIndex:(NSUInteger)pathIndex
                 withStartingPoint:(CGPoint)startPoint
@@ -241,24 +239,12 @@
     return 4;
 }
 
-
-
-#pragma mark - Setters and Getter
-
-
 -(NSSet *)connectedPieces {
     if (!_connectedPieces) {
-        _connectedPieces = [NSSet setWithObject:self];
-    }
-    return _connectedPieces;
-}
-
--(NSMutableArray *)neighborPieces {
-    if (!_neighborPieces) {
-        _neighborPieces = [NSMutableArray array];
+        _connectedPieces = [NSSet setWithObjects:self, nil];
     }
     
-    return _neighborPieces;
+    return _connectedPieces;
 }
 
 
@@ -272,47 +258,72 @@ double MARGIN_OF_MATCHING_ERROR = .3;
 -(CGPoint) neighborPointDown { return CGPointMake(self.center.x, self.center.y + self.frame.size.height); }
 -(CGPoint) neighborPointLeft { return CGPointMake(self.center.x  - self.frame.size.width, self.center.y); }
 
--(NSUInteger)checkIfMatched:(PuzzlePieceView *)piece withLocation:(NSUInteger)locationIndex {
+-(NSUInteger)checkIfMatched:(PuzzlePieceView *)piece {
     
     CGRect bounds = CGRectMake(piece.center.x - piece.frame.size.width * MARGIN_OF_MATCHING_ERROR / 2,  piece.center.y - piece.frame.size.height * MARGIN_OF_MATCHING_ERROR / 2, piece.frame.size.width * MARGIN_OF_MATCHING_ERROR, piece.frame.size.height * MARGIN_OF_MATCHING_ERROR);
-
-    CGPoint neighborPoint = [@[[NSValue valueWithCGPoint:[self neighborPointUp]],
-                               [NSValue valueWithCGPoint:[self neighborPointRight]],
-                               [NSValue valueWithCGPoint:[self neighborPointDown]],
-                               [NSValue valueWithCGPoint:[self neighborPointLeft]]][locationIndex] CGPointValue];
-    if (CGRectContainsPoint(bounds, neighborPoint)) {
-        return YES;
+    
+    NSUInteger directionIndex = 1;
+    for (NSValue *pointValue in @[[NSValue valueWithCGPoint:[self neighborPointUp]],
+                            [NSValue valueWithCGPoint:[self neighborPointRight]],
+                            [NSValue valueWithCGPoint:[self neighborPointDown]],
+                            [NSValue valueWithCGPoint:[self neighborPointLeft]]]) {
+        if (CGRectContainsPoint(bounds, [pointValue CGPointValue])) {
+            return directionIndex;
+        }
+        directionIndex++;
     }
-    return NO;
+    
+    return 0;
 }
 
 -(void)connectPiece:(PuzzlePieceView *)piece withLocation:(NSUInteger)locationIndex {
     
-    CGPoint neighborPoint = [@[[NSValue valueWithCGPoint:[self neighborPointUp]],
-                               [NSValue valueWithCGPoint:[self neighborPointRight]],
-                               [NSValue valueWithCGPoint:[self neighborPointDown]],
-                               [NSValue valueWithCGPoint:[self neighborPointLeft]]][locationIndex] CGPointValue];
+    CGPoint neighborPoint;
+    
+    switch (locationIndex) {
+        case 1:
+            neighborPoint = [self neighborPointUp];
+            break;
+            
+        case 2:
+            neighborPoint = [self neighborPointRight];
+            break;
+            
+        case 3:
+            neighborPoint = [self neighborPointDown];
+            break;
+            
+        case 4:
+            neighborPoint = [self neighborPointLeft];
+            
+        default:
+            break;
+    }
     
     CGPoint translation = CGPointMake(neighborPoint.x - piece.center.x, neighborPoint.y - piece.center.y);
     
     for (PuzzlePieceView *movingPiece in piece.connectedPieces) {
-        movingPiece.center = CGPointMake(translation.x + movingPiece.center.x,
-                                         translation.y + movingPiece.center.y);
+        [piece recenter];
+        [movingPiece movePiece:translation];
     }
     
-    self. connectedPieces = [self.connectedPieces setByAddingObjectsFromSet:piece.connectedPieces];
+    NSSet *newlyConnectedPieces = [self.connectedPieces setByAddingObjectsFromSet:piece.connectedPieces];
     
-    for (PuzzlePieceView *connectedPiece in self.connectedPieces) {
-        connectedPiece.connectedPieces = self.connectedPieces;
+    for (PuzzlePieceView *connectedPiece in newlyConnectedPieces) {
+        connectedPiece.connectedPieces = newlyConnectedPieces;
     }
-
 }
 
 
 
-#pragma mark - Movement Methods
+#pragma mark - Gesture Recognizers
 
--(void)moveWithConnectedPiece:(CGPoint)translation {
+-(void)detectDrag:(UIPanGestureRecognizer *)panGestureRecognizer {
+    
+    CGPoint translation = [panGestureRecognizer translationInView:self.superview];
+
+    [self movePiece:translation];
+    
     for (PuzzlePieceView *piece in self.connectedPieces) {
         [piece movePiece:translation];
     }
@@ -323,25 +334,9 @@ double MARGIN_OF_MATCHING_ERROR = .3;
                               translation.y + self.oldCenter.y);
 }
 
--(void)checkForNewMatches {
-    for (PuzzlePieceView *connectedPiece in self.connectedPieces) {
-        for (NSUInteger edgeIndex = 0; edgeIndex < 4; edgeIndex ++) {
-            PuzzlePieceView *neighborPiece = (PuzzlePieceView *)connectedPiece.neighborPieces[edgeIndex];
-            
-            if ([connectedPiece checkIfMatched:neighborPiece withLocation:edgeIndex]) {
-                [connectedPiece connectPiece:neighborPiece withLocation:edgeIndex];
-            }
-        }
-    }
-}
-
 // Sets old center upon being touched and moves piece and all connected pieces to the front of the subivews in the Superview
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self selectPiece];
-}
-
--(void)selectPiece {
     for (PuzzlePieceView *piece in self.connectedPieces) {
         [piece.superview bringSubviewToFront:piece];
         [piece recenter];

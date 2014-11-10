@@ -6,21 +6,12 @@
 //  Copyright (c) 2014 Chris Lockwood. All rights reserved.
 //
 
-
-#import <AVFoundation/AVFoundation.h>
-#import <AudioToolbox/AudioToolbox.h>
-
 #import "ViewController.h"
-#import "PuzzleView.h"
-#import "ResetButton.h"
-#import "SettingsButton.h"
+#import "PuzzlePieceView.h"
 
 @interface ViewController ()
 
-@property (nonatomic, strong) AVAudioPlayer *player;
-@property (weak, nonatomic) IBOutlet PuzzleView *puzzle;
-@property (weak, nonatomic) IBOutlet ResetButton *resetButton;
-@property (weak, nonatomic) IBOutlet SettingsButton *settingsButton;
+@property (nonatomic, strong) NSMutableArray *pieces; //of PuzzlePieceViews
 
 @end
 
@@ -31,54 +22,78 @@
 #pragma mark - Instantiation
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
-    // [self startMusicLoop];
-    
-    [self setBackgroundImage];
+    [self createPieces];
+    [self randomlyMovePieces];
     
 }
 
--(void)startMusicLoop {
+NSUInteger PIECE_WIDTH = 4;
+NSUInteger PIECE_HEIGHT = 4;
+
+double WIDTH_HEIGHT_RATIO = .8;
+-(double) pieceWidth { return self.view.frame.size.width / PIECE_WIDTH; }
+-(double) pieceHeight { return [self pieceWidth] * WIDTH_HEIGHT_RATIO; }
+
+-(void)createPieces {
     
-    NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"Megaman_2_title_theme" ofType:@"mp3"];
-    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
-    self.player.numberOfLoops = -1;
-    self.player.volume = 0.5;
+    // Note: Remeber to change the number of edge types to depend on pieces
+    NSUInteger NUMBER_OF_EDGE_TYPES = 4;
     
-    [self.player play];
+    NSUInteger verticalEdgeArray[PIECE_WIDTH + 1][PIECE_HEIGHT];
+    for (NSUInteger heightIndex = 0; heightIndex < PIECE_HEIGHT; heightIndex++) {
+        for (NSUInteger widthIndex = 0; widthIndex < PIECE_WIDTH + 1; widthIndex++) {
+            if (widthIndex == 0 || widthIndex == PIECE_WIDTH) {
+                verticalEdgeArray[widthIndex][heightIndex] = 0;
+            } else {
+                verticalEdgeArray[widthIndex][heightIndex] = (arc4random() % NUMBER_OF_EDGE_TYPES) + 1;
+            }
+        }
+    }
+    
+    NSUInteger horizontalEdgeArray[PIECE_WIDTH][PIECE_HEIGHT + 1];
+    for (NSUInteger heightIndex = 0; heightIndex < PIECE_HEIGHT + 1; heightIndex++) {
+        for (NSUInteger widthIndex = 0; widthIndex < PIECE_WIDTH; widthIndex++) {
+            if (heightIndex == 0 || heightIndex == PIECE_HEIGHT) {
+                horizontalEdgeArray[widthIndex][heightIndex] = 0;
+            } else {
+                horizontalEdgeArray[widthIndex][heightIndex] = (arc4random() % NUMBER_OF_EDGE_TYPES) + 1;
+            }
+        }
+    }
+    
+    for (NSUInteger heightIndex = 0; heightIndex < PIECE_HEIGHT; heightIndex++) {
+        for (NSUInteger widthIndex = 0; widthIndex < PIECE_WIDTH; widthIndex++) {
+            NSUInteger edgeIndicies[4] = {horizontalEdgeArray[widthIndex][heightIndex],
+                verticalEdgeArray[widthIndex + 1][heightIndex],
+                horizontalEdgeArray[widthIndex][heightIndex + 1],
+                verticalEdgeArray[widthIndex][heightIndex]};
+            
+            PuzzlePieceView *piece = [[PuzzlePieceView alloc] initWithFrame:CGRectMake([self pieceWidth]* widthIndex, [self pieceHeight] * heightIndex, [self pieceWidth], [self pieceHeight]) withWidthIndex:widthIndex withHeightIndex:heightIndex withWidthNum:PIECE_WIDTH withHeightNum:PIECE_HEIGHT withEdgeIndicies:edgeIndicies];
+            piece.delegate = self;
+            [self.view addSubview:piece];
+            [self.pieces addObject:piece];
+        }
+    }
 }
 
--(void)setBackgroundImage {
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WoodenBackground"]];
-    [imageView setFrame:self.view.frame];
+-(void)randomlyMovePieces {
+    NSMutableArray *possibleLocations = [[NSMutableArray alloc]init];
     
-    [self.view addSubview:imageView];
-    [self.view sendSubviewToBack:imageView];
-}
-
-
-
-#pragma mark - Actions
-
-- (IBAction)resetButtonPushed:(id)sender {
-    [self showResetWarning];
-}
-
--(void)showResetWarning {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"WARNING:" message:@"Are you sure you want to restart your puzzle?" preferredStyle:UIAlertControllerStyleAlert];
+    for (NSUInteger heightIndex = 0; heightIndex < PIECE_HEIGHT; heightIndex++) {
+        for (NSUInteger widthIndex = 0; widthIndex < PIECE_WIDTH; widthIndex++) {
+            [possibleLocations addObject:[NSValue valueWithCGPoint:CGPointMake((widthIndex + .5) * [self pieceWidth], (heightIndex + .5) * [self pieceHeight])]];
+        }
+    }
     
-    UIAlertAction *restartAction = [UIAlertAction actionWithTitle:@"Reset" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self.puzzle restartPuzzle];
-        }];
-    [alert addAction:restartAction];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-    }];
-    [alert addAction:cancelAction];
-    
-    [self presentViewController:alert animated:YES completion:nil];
+    for (PuzzlePieceView *piece in self.pieces) {
+        NSUInteger randomIndex = arc4random() % [possibleLocations count];
+        
+        piece.center = [[possibleLocations objectAtIndex:randomIndex] CGPointValue];
+        [possibleLocations removeObjectAtIndex:randomIndex];
+    }
 }
 
 
@@ -88,6 +103,19 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
+}
+
+
+
+// Note: Move this to instantiation section
+#pragma mark - Setters and Getters
+
+- (NSMutableArray *)pieces {
+    if (!_pieces) {
+        _pieces = [[NSMutableArray alloc] init];
+    }
+    
+    return _pieces;
 }
 
 @end
