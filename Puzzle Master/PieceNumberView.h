@@ -10,4 +10,7 @@
 
 @interface PieceNumberView : UIView
 
+@property (nonatomic) NSUInteger selectedWidthNum;
+@property (nonatomic) NSUInteger selectedHeightNum;
+
 @end

@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Chris Lockwood. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioToolbox.h>
+
 #import "PuzzleView.h"
 #import "PuzzlePieceView.h"
 
@@ -14,6 +17,7 @@
 @property (nonatomic, strong) NSMutableArray *pieces; //of PuzzlePieceViews
 @property (nonatomic) NSUInteger widthNum;
 @property (nonatomic) NSUInteger heightNum;
+@property (nonatomic, strong) AVAudioPlayer *player;
 
 @end
 
@@ -21,18 +25,22 @@
 
 #pragma mark - Instantiation
 
--(instancetype)initWithFrame:(CGRect)frame withWidthNum:(NSUInteger)widthNum withHeightNum:(NSUInteger)heightNum {
+-(instancetype)initWithFrame:(CGRect)frame
+                withWidthNum:(NSUInteger)widthNum
+               withHeightNum:(NSUInteger)heightNum
+                   withImage:(UIImage *)puzzleImage{
     self = [super initWithFrame:frame];
     self.widthNum = widthNum;
     self.heightNum = heightNum;
+    self.puzzleImage = puzzleImage;
     
     [self setUp];
     
     return self;
 }
 
-NSUInteger const DEFAULT_WIDTH_NUM = 5;
-NSUInteger const DEFAULT_HEIGHT_NUM = 5;
+NSUInteger const DEFAULT_WIDTH_NUM = 4;
+NSUInteger const DEFAULT_HEIGHT_NUM = 4;
 
 -(void)awakeFromNib {
     [super awakeFromNib];
@@ -90,8 +98,7 @@ double AMOUNT_OF_HEIGHT_USED = .5;
                 horizontalEdgeArray[widthIndex][heightIndex + 1],
                 verticalEdgeArray[widthIndex][heightIndex]};
             
-            PuzzlePieceView *piece = [[PuzzlePieceView alloc] initWithFrame:CGRectMake([self pieceWidth]* widthIndex, [self pieceHeight] * heightIndex, [self pieceWidth], [self pieceHeight]) withWidthIndex:widthIndex withHeightIndex:heightIndex withWidthNum:self.widthNum withHeightNum:self.heightNum withEdgeIndicies:edgeIndicies];
-            piece.delegate = self;
+            PuzzlePieceView *piece = [[PuzzlePieceView alloc] initWithFrame:CGRectMake([self pieceWidth]* widthIndex, [self pieceHeight] * heightIndex, [self pieceWidth], [self pieceHeight]) withWidthIndex:widthIndex withHeightIndex:heightIndex withWidthNum:self.widthNum withHeightNum:self.heightNum withEdgeIndicies:edgeIndicies withPuzzleImage:self.puzzleImage];
             [self addSubview:piece];
             [self.pieces addObject:piece];
             
@@ -101,7 +108,7 @@ double AMOUNT_OF_HEIGHT_USED = .5;
     
     for (NSUInteger heightIndex = 0; heightIndex < self.heightNum; heightIndex++) {
         for (NSUInteger widthIndex = 0; widthIndex < self.widthNum; widthIndex++) {
-            PuzzlePieceView *piece = (PuzzlePieceView *)self.pieces[widthIndex + heightIndex * self.heightNum];
+            PuzzlePieceView *piece = (PuzzlePieceView *)self.pieces[widthIndex + heightIndex * self.widthNum];
             if (heightIndex > 0) {
                 [piece.neighborPieces addObject: self.pieces[widthIndex + (heightIndex - 1) * self.widthNum]];
             } else {
@@ -155,6 +162,13 @@ double AMOUNT_OF_HEIGHT_USED = .5;
     return _pieces;
 }
 
+- (UIImage *)puzzleImage {
+    if (!_puzzleImage) {
+        _puzzleImage = [UIImage imageNamed:@"TheWitnessBlossoms"];
+    }
+    return _puzzleImage;
+}
+
 
 
 #pragma mark - Puzzle Functions
@@ -169,6 +183,14 @@ double AMOUNT_OF_HEIGHT_USED = .5;
     
     [self createPieces];
     [self randomlyMovePieces];
+}
+
+-(void)restartPuzzlewithWidthNum:(NSUInteger)widthNum withHeightNum:(NSUInteger)heightNum withImage:(UIImage *)puzzleImage {
+    self.widthNum = widthNum;
+    self.heightNum = heightNum;
+    self.puzzleImage = puzzleImage;
+    
+    [self restartPuzzle];
 }
 
 -(void)checkForCompletion {
@@ -194,9 +216,26 @@ double AMOUNT_OF_HEIGHT_USED = .5;
     panGestureRecognizer.cancelsTouchesInView = NO;
     
     if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        
+        NSInteger oldMatchesNum = [selectedPiece.connectedPieces count];
         [selectedPiece checkForNewMatches];
         [self checkForCompletion];
+        
+        if (oldMatchesNum < [selectedPiece.connectedPieces count]) {
+            [self playMatchSound];
+        }
     }
+}
+
+-(void)playMatchSound {
+    
+    // Plays click sound if there is a match
+    NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"Click-Puzzle-Master" ofType:@"mp3"];
+    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
+    self.player.volume = 0.1;
+    
+    [self.player play];
 }
 
 @end

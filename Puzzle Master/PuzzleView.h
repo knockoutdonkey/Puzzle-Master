@@ -10,10 +10,18 @@
 
 @interface PuzzleView : UIView
 
+@property (nonatomic, strong) UIImage *puzzleImage;
+@property (nonatomic, readonly) NSUInteger widthNum;
+@property (nonatomic, readonly) NSUInteger heightNum;
+
 -(instancetype)initWithFrame:(CGRect)frame
               withWidthNum:(NSUInteger)widthNum
-             withHeightNum:(NSUInteger)heightNum;
+             withHeightNum:(NSUInteger)heightNum
+                   withImage:(UIImage *)puzzleImage;
 
 -(void)restartPuzzle;
+-(void)restartPuzzlewithWidthNum:(NSUInteger)widthNum
+                   withHeightNum:(NSUInteger)heightNum
+                       withImage:(UIImage *)puzzleImage;
 
 @end

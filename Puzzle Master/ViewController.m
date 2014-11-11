@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Chris Lockwood. All rights reserved.
 //
 
-
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -14,6 +13,7 @@
 #import "PuzzleView.h"
 #import "ResetButton.h"
 #import "SettingsButton.h"
+#import "SettingsViewController.h"
 
 @interface ViewController ()
 
@@ -36,6 +36,7 @@
     // [self startMusicLoop];
     
     [self setBackgroundImage];
+    [self setNeedsStatusBarAppearanceUpdate];
     
 }
 
@@ -58,6 +59,9 @@
     [self.view sendSubviewToBack:imageView];
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
 
 
 #pragma mark - Actions
@@ -81,6 +85,12 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+-(void)createNewPuzzleWithWidthNum:(NSUInteger)widthNum
+                     withHeightNum:(NSUInteger)heightNum
+                         withImage:(UIImage *)image {
+    [self.puzzle restartPuzzlewithWidthNum:widthNum withHeightNum:heightNum withImage:image];
+}
+
 
 
 #pragma mark - Memory Management
@@ -88,6 +98,19 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
+}
+
+
+
+#pragma mark - Navigation
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"Settings"]) {
+        if ([segue.destinationViewController isKindOfClass:[SettingsViewController class]]) {
+            SettingsViewController *svc = (SettingsViewController *) segue.destinationViewController;
+            [svc useOldWidthNum:self.puzzle.widthNum heightNum:self.puzzle.heightNum image:self.puzzle.puzzleImage];
+        }
+    }
 }
 
 @end

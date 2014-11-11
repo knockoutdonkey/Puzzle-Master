@@ -15,6 +15,11 @@
                     <view key="view" contentMode="scaleToFill" id="o03-RR-rgi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WoodenBackground" translatesAutoresizingMaskIntoConstraints="NO" id="bUe-l8-lUA">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -24,4 +29,7 @@
             <point key="canvasLocation" x="328" y="380"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="WoodenBackground" width="1333" height="2000"/>
+    </resources>
 </document>

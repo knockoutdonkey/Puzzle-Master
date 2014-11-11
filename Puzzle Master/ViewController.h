@@ -10,5 +10,9 @@
 
 @interface ViewController : UIViewController
 
+-(void)createNewPuzzleWithWidthNum:(NSUInteger)widthNum
+                     withHeightNum:(NSUInteger)heightNum
+                         withImage:(UIImage *)image;
+
 @end
 

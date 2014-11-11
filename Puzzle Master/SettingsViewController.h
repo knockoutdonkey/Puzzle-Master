@@ -10,4 +10,7 @@
 
 @interface SettingsViewController : UIViewController
 
+-(void)useOldWidthNum:(NSUInteger)widthNum
+            heightNum:(NSUInteger)heightNum image:(UIImage *)image;
+
 @end

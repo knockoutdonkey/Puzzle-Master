@@ -18,6 +18,7 @@
 @property (nonatomic) NSUInteger widthNum;
 @property (nonatomic) NSUInteger heightNum;
 @property (nonatomic) NSUInteger *edgeIndicies;
+@property (nonatomic, strong) UIImage *puzzleImage;
 
 @property (nonatomic) CGPoint oldCenter;
 
@@ -41,7 +42,8 @@
              withHeightIndex:(NSUInteger)heightIndex
                 withWidthNum:(NSUInteger)widthNum
                withHeightNum:(NSUInteger)heightNum
-            withEdgeIndicies:(NSUInteger *)edgeIndicies {
+            withEdgeIndicies:(NSUInteger *)edgeIndicies
+             withPuzzleImage:(UIImage *)puzzleImage{
     
     self = [super initWithFrame:frame];
     
@@ -50,6 +52,7 @@
     self.widthNum = widthNum;
     self.heightNum = heightNum;
     self.edgeIndicies = edgeIndicies;
+    self.puzzleImage = puzzleImage;
     
     [self setUp];
     
@@ -73,12 +76,36 @@
     //This UIBezierPath determines the shape of the puzzle piece
     UIBezierPath *path = [self createPath];
     
-    mask.path = [path CGPath];
+    mask.path = path.CGPath;
     
-    [contentLayer setContents:(id)[[UIImage imageNamed:@"TheWitnessBlossoms"] CGImage]];
-    [contentLayer setMask:mask];
+    contentLayer.contents = (id)[self.puzzleImage CGImage];
+    contentLayer.mask = mask;
+    [[self layer]addSublayer:contentLayer];
+    
+//    Note: Can't add a shadow to each piece without taking a big hit to framerate
+//
+//    CAShapeLayer *shadowLayer = [CAShapeLayer layer];
+//    shadowLayer.position = CGPointMake(-self.frame.origin.x, -self.frame.origin.y);
+//    shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
+//    shadowLayer.shadowPath = [path CGPath];
+//    shadowLayer.shadowOffset = CGSizeMake(-1, 1);
+//    shadowLayer.shadowOpacity = 0.5;
+//    shadowLayer.shouldRasterize = YES;
+//    shadowLayer.rasterizationScale = [UIScreen mainScreen].scale;
+//    self.layer.shadowOpacity = 0.5;
+//    
+//    [[self layer]addSublayer:shadowLayer];
     
     [[self layer]addSublayer:contentLayer];
+    
+    CAShapeLayer *outlineLayer = [CAShapeLayer layer];
+    outlineLayer.position = CGPointMake(-self.frame.origin.x, -self.frame.origin.y);
+    outlineLayer.lineWidth = 1;
+    outlineLayer.strokeColor = [[UIColor colorWithRed:0 green:0 blue:0 alpha:.2] CGColor];
+    outlineLayer.fillColor = [[UIColor clearColor] CGColor];
+    outlineLayer.path = [path CGPath];
+    
+    [[self layer]addSublayer:outlineLayer];
 }
 
 -(UIBezierPath *)createPath {
@@ -163,8 +190,10 @@
         //
         case 3: {
             
-            CGPoint pointBeforeBump = CGPointMake((startPoint.x + endPoint.x) / 2 - (startPoint.x - endPoint.x) / 6, (startPoint.y + endPoint.y) / 2 - (startPoint.y - endPoint.y) / 6);
-            CGPoint bumpCenter = CGPointMake((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2);
+            CGPoint pointBeforeBump = CGPointMake((startPoint.x + endPoint.x) / 2 + (startPoint.x - endPoint.x) / 6,
+                                                  (startPoint.y + endPoint.y) / 2 + (startPoint.y - endPoint.y) / 6);
+            CGPoint bumpCenter = CGPointMake((startPoint.x + endPoint.x) / 2,
+                                             (startPoint.y + endPoint.y) / 2);
             CGPoint pointAfterBump = endPoint;
             
             [path addLineToPoint:pointBeforeBump];
@@ -175,7 +204,6 @@
             CGFloat endAngle = 3.1459;
             BOOL horizontal = (startPoint.y == endPoint.y);
             if (!horizontal) {
-                bumpRadius = (startPoint.x - endPoint.x) / 6 + (startPoint.y - endPoint.y) / 6;
                 startAngle = 3.1459 / 2;
                 endAngle = 3 * 3.1459 / 2;
             }
@@ -191,7 +219,8 @@
         //
         case 4: {
             
-            CGPoint pointBeforeBump = CGPointMake((startPoint.x + endPoint.x) / 2 - (startPoint.x - endPoint.x) / 6, (startPoint.y + endPoint.y) / 2 - (startPoint.y - endPoint.y) / 6);
+            CGPoint pointBeforeBump = CGPointMake((startPoint.x + endPoint.x) / 2 + (startPoint.x - endPoint.x) / 6,
+                                                  (startPoint.y + endPoint.y) / 2 + (startPoint.y - endPoint.y) / 6);
             CGPoint bumpCenter = CGPointMake((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2);
             CGPoint pointAfterBump = endPoint;
             

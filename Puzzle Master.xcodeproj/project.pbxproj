@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		83050EA71A0EA4E200F25BF5 /* PieceNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83050EA61A0EA4E200F25BF5 /* PieceNumberView.m */; };
+		830D11721A1138A000F28682 /* NumberScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830D11711A1138A000F28682 /* NumberScrollView.m */; };
+		83138BDB1A10940D003AEDEF /* Click-Puzzle-Master.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83138BDA1A10940D003AEDEF /* Click-Puzzle-Master.mp3 */; };
+		83138BDE1A10A006003AEDEF /* ImageSelectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83138BDD1A10A006003AEDEF /* ImageSelectionScrollView.m */; };
 		834642141A0DB23E00B7AFA6 /* ResetButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642131A0DB23E00B7AFA6 /* ResetButton.m */; };
 		834642171A0DB38400B7AFA6 /* SettingsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642161A0DB38400B7AFA6 /* SettingsButton.m */; };
 		8346421A1A0E0EE400B7AFA6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642191A0E0EE400B7AFA6 /* SettingsViewController.m */; };
@@ -36,6 +39,11 @@
 /* Begin PBXFileReference section */
 		83050EA51A0EA4E200F25BF5 /* PieceNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieceNumberView.h; sourceTree = "<group>"; };
 		83050EA61A0EA4E200F25BF5 /* PieceNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceNumberView.m; sourceTree = "<group>"; };
+		830D11701A1138A000F28682 /* NumberScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NumberScrollView.h; sourceTree = "<group>"; };
+		830D11711A1138A000F28682 /* NumberScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NumberScrollView.m; sourceTree = "<group>"; };
+		83138BDA1A10940D003AEDEF /* Click-Puzzle-Master.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Click-Puzzle-Master.mp3"; sourceTree = "<group>"; };
+		83138BDC1A10A006003AEDEF /* ImageSelectionScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageSelectionScrollView.h; sourceTree = "<group>"; };
+		83138BDD1A10A006003AEDEF /* ImageSelectionScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageSelectionScrollView.m; sourceTree = "<group>"; };
 		834642121A0DB23E00B7AFA6 /* ResetButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetButton.h; sourceTree = "<group>"; };
 		834642131A0DB23E00B7AFA6 /* ResetButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetButton.m; sourceTree = "<group>"; };
 		834642151A0DB38400B7AFA6 /* SettingsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsButton.h; sourceTree = "<group>"; };
@@ -116,6 +124,10 @@
 				834642191A0E0EE400B7AFA6 /* SettingsViewController.m */,
 				83050EA51A0EA4E200F25BF5 /* PieceNumberView.h */,
 				83050EA61A0EA4E200F25BF5 /* PieceNumberView.m */,
+				830D11701A1138A000F28682 /* NumberScrollView.h */,
+				830D11711A1138A000F28682 /* NumberScrollView.m */,
+				83138BDC1A10A006003AEDEF /* ImageSelectionScrollView.h */,
+				83138BDD1A10A006003AEDEF /* ImageSelectionScrollView.m */,
 				83EE4BBC19F9781500D44A29 /* Images.xcassets */,
 				83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */,
 				83EE4BAF19F9781500D44A29 /* Supporting Files */,
@@ -126,6 +138,7 @@
 		83EE4BAF19F9781500D44A29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83138BDA1A10940D003AEDEF /* Click-Puzzle-Master.mp3 */,
 				835568431A0C9E830040C6EE /* Megaman_2_title_theme.mp3 */,
 				83EE4BB319F9781500D44A29 /* AppDelegate.h */,
 				83EE4BB419F9781500D44A29 /* AppDelegate.m */,
@@ -234,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				83EE4BBB19F9781500D44A29 /* Main.storyboard in Resources */,
+				83138BDB1A10940D003AEDEF /* Click-Puzzle-Master.mp3 in Resources */,
 				835568441A0C9E830040C6EE /* Megaman_2_title_theme.mp3 in Resources */,
 				83B5A33C1A0D5E5500692839 /* LaunchScreen.storyboard in Resources */,
 				83EE4BBD19F9781500D44A29 /* Images.xcassets in Resources */,
@@ -254,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83138BDE1A10A006003AEDEF /* ImageSelectionScrollView.m in Sources */,
 				83D69B981A00332000559CBD /* PuzzlePieceView.m in Sources */,
 				83050EA71A0EA4E200F25BF5 /* PieceNumberView.m in Sources */,
 				835568471A0CA01B0040C6EE /* PuzzleView.m in Sources */,
@@ -262,6 +277,7 @@
 				83EE4BB519F9781500D44A29 /* AppDelegate.m in Sources */,
 				834642171A0DB38400B7AFA6 /* SettingsButton.m in Sources */,
 				83EE4BB219F9781500D44A29 /* main.m in Sources */,
+				830D11721A1138A000F28682 /* NumberScrollView.m in Sources */,
 				834642141A0DB23E00B7AFA6 /* ResetButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

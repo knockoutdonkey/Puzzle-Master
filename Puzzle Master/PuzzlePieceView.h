@@ -25,7 +25,8 @@
              withHeightIndex:(NSUInteger)heightIndex
                 withWidthNum:(NSUInteger)widthNum
                withHeightNum:(NSUInteger)heightNum
-            withEdgeIndicies:(NSUInteger *)edgeIndicies;
+            withEdgeIndicies:(NSUInteger *)edgeIndicies
+             withPuzzleImage:(UIImage *)puzzleImage;
 
 // PuzzlePiece Manipulation Methods
 -(void)moveWithConnectedPiece:(CGPoint)translation;

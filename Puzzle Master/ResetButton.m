@@ -11,6 +11,9 @@
 @implementation ResetButton
 
 
+
+#pragma mark - Instantiation
+
 -(void)awakeFromNib {
     [super awakeFromNib];
     [self setUp];
@@ -25,6 +28,10 @@
     self.opaque = NO;
     self.contentMode = UIViewContentModeRedraw;
 }
+
+
+
+#pragma mark - Drawing
 
 - (void)drawRect:(CGRect)rect {
     UIBezierPath *outline = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:self.frame.size.height / 6];
