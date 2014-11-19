@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "Wooden_BackGround_2000x1333.png"
+      "filename" : "Wooden_BackGround_300x200.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Wooden_BackGround_4000x2667.png"
+      "filename" : "Wooden_BackGround_600x400.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "Wooden_BackGround_6000x4000.png"
+      "filename" : "Wooden_BackGround_900x600.png"
     }
   ],
   "info" : {

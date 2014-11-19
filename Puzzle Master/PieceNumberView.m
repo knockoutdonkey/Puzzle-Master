@@ -24,20 +24,23 @@
 
 -(void)awakeFromNib {
     [super awakeFromNib];
-    [self setUp];
 }
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
-    [self setUp];
     return self;
+}
+
+-(void)layoutSubviews {
+    if (!self.bottemNSV && !self.sideNSV) {
+        [self setUp];
+    }
 }
 
 -(void)setUp {
     self.backgroundColor = nil;
     self.opaque = NO;
-    self.contentMode = UIViewContentModeRedraw;
     
     // Make frame square
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.width);
@@ -47,7 +50,7 @@
                                  [self SQUARE_WIDTH] + [self INDENT_LENGTH] * 2,
                                  [self SQUARE_WIDTH] / 2,
                                  [self ARROW_HEIGHT])
-                                               withMinNumber:2 withMaxNumber:7];
+                                               withMinNumber:2 withMaxNumber:self.frame.size.width / 30];
     self.bottemNSV.currentValue = 5;
     self.bottemNSV.delegate = self;
     [self addSubview:self.bottemNSV];
@@ -57,13 +60,16 @@
                                [self SQUARE_WIDTH] / 3,
                                [self ARROW_HEIGHT],
                                [self SQUARE_WIDTH] / 2)
-                                             withMinNumber:2 withMaxNumber:7];
+                                             withMinNumber:2 withMaxNumber:self.frame.size.height / 30];
     self.sideNSV.currentValue = 5;
     self.sideNSV.delegate = self;
     [self addSubview:self.sideNSV];
-    
-    
 }
+
+
+
+
+#pragma mark - Setters and Getters
 
 @synthesize selectedWidthNum = _selectedWidthNum;
 
@@ -73,7 +79,6 @@
 
 -(void)setSelectedWidthNum:(NSUInteger)selectedWidthNum {
     self.bottemNSV.currentValue = selectedWidthNum;
-    [self setNeedsDisplay];
 }
 
 @synthesize selectedHeightNum = _selectedHeightNum;
@@ -84,7 +89,6 @@
 
 -(void)setSelectedHeightNum:(NSUInteger)selectedHeightNum {
     self.sideNSV.currentValue = selectedHeightNum;
-    [self setNeedsDisplay];
 }
 
 
@@ -113,8 +117,8 @@ int CONER_RADIUS = 8;
                            [self INDENT_LENGTH] + heightIndex * [self SQUARE_WIDTH] / self.selectedHeightNum,
                            [self SQUARE_WIDTH] / self.selectedWidthNum,
                            [self SQUARE_WIDTH] / self.selectedHeightNum)
-                                                                 cornerRadius:[self SQUARE_WIDTH] / 30];
-            [[UIColor blackColor] setStroke];
+                                                                 cornerRadius:[self SQUARE_WIDTH] / 3 / (self.selectedWidthNum + self.selectedHeightNum)];
+            [[UIColor colorWithRed:1 green:1 blue:1 alpha:.8] setStroke];
             squareCell.lineWidth = 2;
             [squareCell stroke];
         }

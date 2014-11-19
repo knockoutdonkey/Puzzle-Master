@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "Oak_Background500x400.png"
+      "filename" : "Smaller_Oak_Background250x200.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Oak_Background1000x800.png"
+      "filename" : "Smaller_Oak_Background500x400.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "Oak_Background1500x1200.png"
+      "filename" : "Smaller_Oak_Background750x600.png"
     }
   ],
   "info" : {

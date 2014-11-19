@@ -1,0 +1,15 @@
+
+/* Class = "IBUILabel"; text = "Settings"; ObjectID = "6on-ZG-ZhU"; */
+"6on-ZG-ZhU.text" = "Settings";
+
+/* Class = "IBUIButton"; normalTitle = "⬅︎"; ObjectID = "9gc-wo-ijr"; */
+"9gc-wo-ijr.normalTitle" = "⬅︎";
+
+/* Class = "IBUILabel"; text = "Tap To Start"; ObjectID = "WjX-6V-t62"; */
+"WjX-6V-t62.text" = "Tap To Start";
+
+/* Class = "IBUILabel"; text = "Puzzle Master"; ObjectID = "alT-N2-SiR"; */
+"alT-N2-SiR.text" = "Puzzle Master";
+
+/* Class = "IBUIButton"; normalTitle = "↺"; ObjectID = "l47-WN-hjT"; */
+"l47-WN-hjT.normalTitle" = "↺";

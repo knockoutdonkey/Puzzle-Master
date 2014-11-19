@@ -7,8 +7,6 @@
 //
 //  This class iplements the PuzzlePieceView UI object.
 
-#import <AVFoundation/AVAudioPlayer.h>
-
 #import "PuzzlePieceView.h"
 
 @interface PuzzlePieceView ()
@@ -61,7 +59,6 @@
 
 -(void)setUp {
     [self displayPuzzlePieceImage];
-    // [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(detectDrag:)]];
 }
 
 -(void)displayPuzzlePieceImage {
@@ -139,6 +136,9 @@
                         withIndex:(NSUInteger)pathIndex
                 withStartingPoint:(CGPoint)startPoint
                      withEndPoint:(CGPoint)endPoint {
+    
+    BOOL horizontal = (startPoint.y == endPoint.y);
+    
     switch (pathIndex) {
            
         //
@@ -150,7 +150,6 @@
             CGPoint controlPoint1 = CGPointMake(startPoint.x + self.frame.size.width * CURVE_STRENGTH, startPoint.y + self.frame.size.height * CURVE_STRENGTH);
             CGPoint controlPoint2 = CGPointMake(endPoint.x - self.frame.size.width * CURVE_STRENGTH, endPoint.y + self.frame.size.height * CURVE_STRENGTH);
             
-            BOOL horizontal = (startPoint.y == endPoint.y);
             if (!horizontal) {
                 controlPoint1 = [self rotatePoint:controlPoint1 aroundPoint:startPoint];
                 controlPoint2 = [self rotatePoint:controlPoint2 aroundPoint:endPoint];
@@ -172,7 +171,6 @@
             CGPoint controlPoint1 = CGPointMake(startPoint.x + self.frame.size.width * CURVE_STRENGTH, startPoint.y + self.frame.size.height * CURVE_STRENGTH);
             CGPoint controlPoint2 = CGPointMake(endPoint.x - self.frame.size.width * CURVE_STRENGTH, endPoint.y + self.frame.size.height * CURVE_STRENGTH);
             
-            BOOL horizontal = (startPoint.y == endPoint.y);
             if (!horizontal) {
                 controlPoint1 = [self rotatePoint:controlPoint1 aroundPoint:startPoint];
                 controlPoint2 = [self rotatePoint:controlPoint2 aroundPoint:endPoint];
@@ -195,20 +193,19 @@
             CGPoint bumpCenter = CGPointMake((startPoint.x + endPoint.x) / 2,
                                              (startPoint.y + endPoint.y) / 2);
             CGPoint pointAfterBump = endPoint;
-            
-            [path addLineToPoint:pointBeforeBump];
-            
-            
+
             CGFloat bumpRadius = (startPoint.x - endPoint.x) / 6 + (startPoint.y - endPoint.y) / 6;
             CGFloat startAngle = 0.0;
             CGFloat endAngle = 3.1459;
-            BOOL horizontal = (startPoint.y == endPoint.y);
+            
             if (!horizontal) {
                 startAngle = 3.1459 / 2;
                 endAngle = 3 * 3.1459 / 2;
             }
-            [path addArcWithCenter:bumpCenter radius:bumpRadius startAngle:startAngle endAngle:endAngle clockwise:YES];
             
+            
+            [path addLineToPoint:pointBeforeBump];
+            [path addArcWithCenter:bumpCenter radius:bumpRadius startAngle:startAngle endAngle:endAngle clockwise:YES];
             [path addLineToPoint:pointAfterBump];
             
             break;
@@ -224,21 +221,125 @@
             CGPoint bumpCenter = CGPointMake((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2);
             CGPoint pointAfterBump = endPoint;
             
-            [path addLineToPoint:pointBeforeBump];
-            
-            
             CGFloat bumpRadius = (startPoint.x - endPoint.x) / 6 + (startPoint.y - endPoint.y) / 6;
             CGFloat startAngle = 0.0;
             CGFloat endAngle = 3.1459;
-            BOOL horizontal = (startPoint.y == endPoint.y);
+            
             if (!horizontal) {
                 bumpRadius = (startPoint.x - endPoint.x) / 6 + (startPoint.y - endPoint.y) / 6;
                 startAngle = 3.1459 / 2;
                 endAngle = 3 * 3.1459 / 2;
             }
-            [path addArcWithCenter:bumpCenter radius:bumpRadius startAngle:startAngle endAngle:endAngle clockwise:NO];
             
+            [path addLineToPoint:pointBeforeBump];
+            [path addArcWithCenter:bumpCenter radius:bumpRadius startAngle:startAngle endAngle:endAngle clockwise:NO];
             [path addLineToPoint:pointAfterBump];
+            
+            break;
+        }
+        
+        //
+        // Curve 5: Sharp Wiggly Line Puzzle Piece Shape
+        //
+        case 5: {
+            CGPoint midPoint = CGPointMake((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2);
+            
+            CGFloat length = (startPoint.x - endPoint.x) + (startPoint.y - endPoint.y);
+            CGFloat BUMP_SIZE = .1;
+
+            CGPoint preMidControlPoint = CGPointMake(midPoint.x - length * BUMP_SIZE, midPoint.y - length * BUMP_SIZE);
+            CGPoint postMidControlPoint = CGPointMake(midPoint.x + length * BUMP_SIZE, midPoint.y + length * BUMP_SIZE);
+            
+            [path addCurveToPoint:midPoint
+                    controlPoint1:preMidControlPoint
+                    controlPoint2:preMidControlPoint];
+            [path addCurveToPoint:endPoint
+                    controlPoint1:postMidControlPoint
+                    controlPoint2:postMidControlPoint];
+            
+            break;
+        }
+            
+        //
+        // Curve 6: Inverse Sharp Wiggly Line (Inversion of Curve 5)
+        //
+        case 6: {
+            CGPoint midPoint = CGPointMake((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2);
+            
+            CGFloat length = (startPoint.x - endPoint.x) + (startPoint.y - endPoint.y);
+            CGFloat BUMP_SIZE = .1;
+            
+            CGPoint preMidControlPoint = CGPointMake(midPoint.x + length * BUMP_SIZE, midPoint.y - length * BUMP_SIZE);
+            CGPoint postMidControlPoint = CGPointMake(midPoint.x - length * BUMP_SIZE, midPoint.y + length * BUMP_SIZE);
+            
+            [path addCurveToPoint:midPoint
+                    controlPoint1:preMidControlPoint
+                    controlPoint2:preMidControlPoint];
+            [path addCurveToPoint:endPoint
+                    controlPoint1:postMidControlPoint
+                    controlPoint2:postMidControlPoint];
+            
+            break;
+        }
+            
+        //
+        // Curve 7: Curvy Puzzle Piece Shape
+        //
+        case 7: {
+            
+            CGPoint firstMidPoint = CGPointMake((2 * startPoint.x + endPoint.x) / 3, (2 * startPoint.y + endPoint.y) / 3);
+            CGPoint secondMidPoint = CGPointMake((startPoint.x + 2 * endPoint.x) / 3, (startPoint.y + 2 * endPoint.y) / 3);
+            
+            CGFloat length = self.frame.size.height + self.frame.size.height;
+            CGFloat BUMP_SIZE = .08;
+            CGFloat directionalModifier = horizontal ? 1 : -1;
+            
+            CGPoint firstPreControlPoint = CGPointMake(firstMidPoint.x + length * BUMP_SIZE, firstMidPoint.y + length * BUMP_SIZE);
+            CGPoint firstPostControlPoint = CGPointMake(firstMidPoint.x - length * BUMP_SIZE, firstMidPoint.y - length * BUMP_SIZE);
+            
+            CGPoint secondPreControlPoint = CGPointMake(secondMidPoint.x + length * BUMP_SIZE * directionalModifier, secondMidPoint.y - length * BUMP_SIZE * directionalModifier);
+            CGPoint secondPostControlPoint = CGPointMake(secondMidPoint.x - length * BUMP_SIZE * directionalModifier, secondMidPoint.y + length * BUMP_SIZE * directionalModifier);
+            
+            [path addCurveToPoint:firstMidPoint
+                    controlPoint1:firstMidPoint
+                    controlPoint2:firstPreControlPoint];
+            [path addCurveToPoint:secondMidPoint
+                    controlPoint1:firstPostControlPoint
+                    controlPoint2:secondPreControlPoint];
+            [path addCurveToPoint:endPoint
+                    controlPoint1:secondPostControlPoint
+                    controlPoint2:secondMidPoint];
+            
+            break;
+        }
+            
+        //
+        // Curve 8: Inverse Curvy Puzzle Piece Shape (Inversion of Curve 7)
+        //
+        case 8: {
+            
+            CGPoint firstMidPoint = CGPointMake((2 * startPoint.x + endPoint.x) / 3, (2 * startPoint.y + endPoint.y) / 3);
+            CGPoint secondMidPoint = CGPointMake((startPoint.x + 2 * endPoint.x) / 3, (startPoint.y + 2 * endPoint.y) / 3);
+            
+            CGFloat length = self.frame.size.height + self.frame.size.height;
+            CGFloat BUMP_SIZE = .1;
+            CGFloat directionalModifier = horizontal ? 1 : -1;
+            
+            CGPoint firstPreControlPoint = CGPointMake(firstMidPoint.x + length * BUMP_SIZE * directionalModifier, firstMidPoint.y - length * BUMP_SIZE * directionalModifier);
+            CGPoint firstPostControlPoint = CGPointMake(firstMidPoint.x - length * BUMP_SIZE * directionalModifier, firstMidPoint.y + length * BUMP_SIZE * directionalModifier);
+            
+            CGPoint secondPreControlPoint = CGPointMake(secondMidPoint.x + length * BUMP_SIZE, secondMidPoint.y + length * BUMP_SIZE);
+            CGPoint secondPostControlPoint = CGPointMake(secondMidPoint.x - length * BUMP_SIZE, secondMidPoint.y - length * BUMP_SIZE);
+            
+            [path addCurveToPoint:firstMidPoint
+                    controlPoint1:firstMidPoint
+                    controlPoint2:firstPreControlPoint];
+            [path addCurveToPoint:secondMidPoint
+                    controlPoint1:firstPostControlPoint
+                    controlPoint2:secondPreControlPoint];
+            [path addCurveToPoint:endPoint
+                    controlPoint1:secondPostControlPoint
+                    controlPoint2:secondMidPoint];
             
             break;
         }
@@ -267,7 +368,7 @@
 }
 
 +(NSUInteger)numberOfEdgeTypes {
-    return 4;
+    return 8;
 }
 
 
@@ -294,7 +395,7 @@
 
 #pragma mark - Matching Methods
 
-double MARGIN_OF_MATCHING_ERROR = .3;
+double MARGIN_OF_MATCHING_ERROR = .4;
 
 -(CGPoint) neighborPointUp { return CGPointMake(self.center.x, self.center.y - self.frame.size.height); }
 -(CGPoint) neighborPointRight { return CGPointMake(self.center.x  + self.frame.size.width, self.center.y); }

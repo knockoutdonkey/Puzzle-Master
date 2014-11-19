@@ -10,17 +10,27 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 #import "ViewController.h"
-#import "PuzzleView.h"
-#import "ResetButton.h"
-#import "SettingsButton.h"
 #import "SettingsViewController.h"
 
 @interface ViewController ()
 
-@property (nonatomic, strong) AVAudioPlayer *player;
+// Puzzle Game Object
 @property (weak, nonatomic) IBOutlet PuzzleView *puzzle;
-@property (weak, nonatomic) IBOutlet ResetButton *resetButton;
-@property (weak, nonatomic) IBOutlet SettingsButton *settingsButton;
+
+// PUZButton Objects on Bottem of Screen (all treated as UIButtons)
+@property (weak, nonatomic) IBOutlet UIButton *resetButton;
+@property (weak, nonatomic) IBOutlet UIButton *timerButton;
+@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
+
+// Timer Object
+@property (strong, nonatomic) NSTimer *timer;
+@property (nonatomic) NSInteger timeElapsed;
+
+// Music Player Object
+@property (nonatomic, strong) AVAudioPlayer *musicPlayer;
+
+// HighScore
+@property (nonatomic) NSInteger highScore;
 
 @end
 
@@ -31,12 +41,15 @@
 #pragma mark - Instantiation
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
-    // [self startMusicLoop];
+    self.puzzle.delegate = self;
     
-    [self setBackgroundImage];
+    [self createTimer];
+    [self getHighScore];
     [self setNeedsStatusBarAppearanceUpdate];
+    // [self startMusicLoop];
     
 }
 
@@ -44,25 +57,34 @@
     
     NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"Megaman_2_title_theme" ofType:@"mp3"];
     NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
-    self.player.numberOfLoops = -1;
-    self.player.volume = 0.5;
+    self.musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
+    self.musicPlayer.numberOfLoops = -1;
+    self.musicPlayer.volume = 0.5;
     
-    [self.player play];
+    [self.musicPlayer play];
 }
 
--(void)setBackgroundImage {
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WoodenBackground"]];
-    [imageView setFrame:self.view.frame];
+-(void)createTimer {
+    self.timer = [NSTimer timerWithTimeInterval: 1.0
+                                                  target:self
+                                                selector:@selector(updateTimer)
+                                                userInfo:nil
+                                                 repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:UITrackingRunLoopMode];
     
-    [self.view addSubview:imageView];
-    [self.view sendSubviewToBack:imageView];
+    [self.timerButton setTitle:@"0:00" forState:UIControlStateNormal];
+    
+    self.timeElapsed = 0;
 }
 
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
+-(void)getHighScore {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Data" ofType:@"plist"];
+    
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:path];
+    self.highScore = [(NSNumber *)[dictionary objectForKey:@"High score"] integerValue];
+    
 }
-
 
 #pragma mark - Actions
 
@@ -75,6 +97,7 @@
     
     UIAlertAction *restartAction = [UIAlertAction actionWithTitle:@"Reset" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self.puzzle restartPuzzle];
+            [self restartTimer];
         }];
     [alert addAction:restartAction];
     
@@ -89,15 +112,34 @@
                      withHeightNum:(NSUInteger)heightNum
                          withImage:(UIImage *)image {
     [self.puzzle restartPuzzlewithWidthNum:widthNum withHeightNum:heightNum withImage:image];
+    [self restartTimer];
 }
 
 
 
-#pragma mark - Memory Management
+#pragma mark - PuzzleViewDelegate Methods
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+-(void)puzzleCompleted {
+    [self pauseTimer];
+}
+
+
+
+#pragma mark - Timer Interaction
+
+-(void)updateTimer {
+    _timeElapsed++;
     
+    [self.timerButton setTitle:[NSString stringWithFormat:@"%d:%02d", _timeElapsed / 60, _timeElapsed % 60] forState:UIControlStateNormal];
+}
+
+-(void)restartTimer {
+    [self.timer invalidate];
+    [self createTimer];
+}
+
+-(void)pauseTimer {
+    [self.timer invalidate];
 }
 
 
@@ -111,6 +153,10 @@
             [svc useOldWidthNum:self.puzzle.widthNum heightNum:self.puzzle.heightNum image:self.puzzle.puzzleImage];
         }
     }
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 @end

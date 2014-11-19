@@ -14,10 +14,22 @@
 
 @interface PuzzleView()
 
+// PuzzlePieceView Objects
 @property (nonatomic, strong) NSMutableArray *pieces; //of PuzzlePieceViews
+
+// Number of Pieces across Width and Height of Puzzle
 @property (nonatomic) NSUInteger widthNum;
 @property (nonatomic) NSUInteger heightNum;
+
+// Pixel Width and Height of each Piece
+@property (nonatomic) CGFloat pieceWidth;
+@property (nonatomic) CGFloat pieceHeight;
+
+// Music Player for Puzzle Actions
 @property (nonatomic, strong) AVAudioPlayer *player;
+
+//// Delegate Object
+//@property (nonatomic, strong)
 
 @end
 
@@ -33,22 +45,25 @@
     self.widthNum = widthNum;
     self.heightNum = heightNum;
     self.puzzleImage = puzzleImage;
-    
-    [self setUp];
-    
+
     return self;
 }
 
 NSUInteger const DEFAULT_WIDTH_NUM = 4;
 NSUInteger const DEFAULT_HEIGHT_NUM = 4;
-
 -(void)awakeFromNib {
+    
     [super awakeFromNib];
     
     self.widthNum = DEFAULT_WIDTH_NUM;
     self.heightNum = DEFAULT_HEIGHT_NUM;
-    
-    [self setUp];
+}
+
+// Creates PuzzlePieceView subviews after the constraints of the PuzzleView have been set
+-(void)layoutSubviews {
+    if ([self.pieces count] == 0) {
+        [self setUp];
+    }
 }
 
 -(void)setUp{
@@ -59,14 +74,14 @@ NSUInteger const DEFAULT_HEIGHT_NUM = 4;
     [self randomlyMovePieces];
 }
 
-double AMOUNT_OF_HEIGHT_USED = .5;
-
--(double) pieceWidth { return self.frame.size.width / self.widthNum; }
--(double) pieceHeight { return self.frame.size.height / self.heightNum * AMOUNT_OF_HEIGHT_USED; }
-
+/* Creating the PuzzlePieceViews requires the following steps:
+    1. Create random array of vertical edeges for the pieces of the puzzle.
+    2. Create random array of horizontal edeges for the pieces of the puzzle.
+    3. Instantiate each piece with the correct edges
+    4. Give each piece a pointer to its neighboring pieces in piece.neighborPieces
+*/
 -(void)createPieces {
     
-    // Note: Remeber to change the number of edge types to depend on pieces
     NSUInteger NUMBER_OF_EDGE_TYPES = [PuzzlePieceView numberOfEdgeTypes];
     
     NSUInteger verticalEdgeArray[self.widthNum + 1][self.heightNum];
@@ -98,7 +113,7 @@ double AMOUNT_OF_HEIGHT_USED = .5;
                 horizontalEdgeArray[widthIndex][heightIndex + 1],
                 verticalEdgeArray[widthIndex][heightIndex]};
             
-            PuzzlePieceView *piece = [[PuzzlePieceView alloc] initWithFrame:CGRectMake([self pieceWidth]* widthIndex, [self pieceHeight] * heightIndex, [self pieceWidth], [self pieceHeight]) withWidthIndex:widthIndex withHeightIndex:heightIndex withWidthNum:self.widthNum withHeightNum:self.heightNum withEdgeIndicies:edgeIndicies withPuzzleImage:self.puzzleImage];
+            PuzzlePieceView *piece = [[PuzzlePieceView alloc] initWithFrame:CGRectMake(self.pieceWidth * widthIndex, self.pieceHeight * heightIndex, self.pieceWidth, self.pieceHeight) withWidthIndex:widthIndex withHeightIndex:heightIndex withWidthNum:self.widthNum withHeightNum:self.heightNum withEdgeIndicies:edgeIndicies withPuzzleImage:self.puzzleImage];
             [self addSubview:piece];
             [self.pieces addObject:piece];
             
@@ -133,12 +148,14 @@ double AMOUNT_OF_HEIGHT_USED = .5;
     }
 }
 
+// Moves each Piece to a Random Location in the Puzzle
 -(void)randomlyMovePieces {
+    
     NSMutableArray *possibleLocations = [[NSMutableArray alloc]init];
     
     for (NSUInteger heightIndex = 0; heightIndex < self.heightNum; heightIndex++) {
         for (NSUInteger widthIndex = 0; widthIndex < self.widthNum; widthIndex++) {
-            [possibleLocations addObject:[NSValue valueWithCGPoint:CGPointMake((widthIndex + .5) * [self pieceWidth], (heightIndex + .5) * [self pieceHeight])]];
+            [possibleLocations addObject:[NSValue valueWithCGPoint:CGPointMake((widthIndex + .5) * self.pieceWidth, (heightIndex + .5) * self.pieceHeight)]];
         }
     }
     
@@ -162,13 +179,56 @@ double AMOUNT_OF_HEIGHT_USED = .5;
     return _pieces;
 }
 
+NSString *DEFAULT_IMAGE_NAME = @"TheWitnessBlossoms";
+
 - (UIImage *)puzzleImage {
     if (!_puzzleImage) {
-        _puzzleImage = [UIImage imageNamed:@"TheWitnessBlossoms"];
+        _puzzleImage = [UIImage imageNamed:DEFAULT_IMAGE_NAME];
     }
+    
     return _puzzleImage;
 }
 
+double AMOUNT_OF_SUPERVIEW_HEIGHT_USED = .5;
+-(BOOL)horizontal { return (self.frame.size.width > self.frame.size.height); };
+// Piece Width will always be determined by the shorter side, so rotation does not change the size of the piece.
+
+-(CGFloat) pieceWidth {
+    if (!_pieceWidth) {
+    
+        if ([self horizontal]) {
+            _pieceWidth = self.frame.size.width  * AMOUNT_OF_SUPERVIEW_HEIGHT_USED / self.widthNum;
+        } else {
+           _pieceWidth = self.frame.size.width / self.widthNum;
+        }
+    }
+    
+    return _pieceWidth;
+}
+
+-(CGFloat) pieceHeight {
+    if (!_pieceHeight) {
+        if ([self horizontal]) {
+            _pieceHeight = self.frame.size.height / self.heightNum;
+        } else {
+            _pieceHeight = self.frame.size.height * AMOUNT_OF_SUPERVIEW_HEIGHT_USED / self.heightNum;
+        }
+    }
+    
+    return _pieceHeight;
+}
+
+-(AVAudioPlayer *)player {
+    if (!_player) {
+        NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"Click-Puzzle-Master" ofType:@"mp3"];
+        NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+        
+        _player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
+        _player.volume = 0.1;
+    }
+    
+    return _player;
+}
 
 
 #pragma mark - Puzzle Functions
@@ -180,6 +240,8 @@ double AMOUNT_OF_HEIGHT_USED = .5;
         [piece removeFromSuperview];
     }
     self.pieces = nil;
+    self.pieceHeight = 0;
+    self.pieceWidth = 0;
     
     [self createPieces];
     [self randomlyMovePieces];
@@ -195,12 +257,10 @@ double AMOUNT_OF_HEIGHT_USED = .5;
 
 -(void)checkForCompletion {
     if ([((PuzzlePieceView *)self.pieces[0]).connectedPieces count] == self.widthNum * self.heightNum) {
-        [self puzzleComplete];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(puzzleCompleted)]) {
+            [self.delegate puzzleCompleted];
+        }
     }
-}
-
--(void)puzzleComplete {
-    [self restartPuzzle];
 }
 
 
@@ -222,20 +282,9 @@ double AMOUNT_OF_HEIGHT_USED = .5;
         [self checkForCompletion];
         
         if (oldMatchesNum < [selectedPiece.connectedPieces count]) {
-            [self playMatchSound];
+            [self.player play];
         }
     }
-}
-
--(void)playMatchSound {
-    
-    // Plays click sound if there is a match
-    NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"Click-Puzzle-Master" ofType:@"mp3"];
-    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
-    self.player.volume = 0.1;
-    
-    [self.player play];
 }
 
 @end

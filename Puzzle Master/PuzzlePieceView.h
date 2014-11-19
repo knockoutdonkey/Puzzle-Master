@@ -17,8 +17,6 @@
 @property (strong, nonatomic) NSMutableArray *neighborPieces;
 @property (strong, nonatomic) NSSet *connectedPieces;
 
-@property (nonatomic,strong) id delegate;
-
 // Instantiation Methods
 -(instancetype)initWithFrame:(CGRect)frame
               withWidthIndex:(NSUInteger)widthIndex

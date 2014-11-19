@@ -12,6 +12,8 @@
 @interface ImageSelectionScrollView()
 
 @property (nonatomic, strong) NSMutableArray *puzzleImageViews;
+@property (nonatomic, strong) UILabel *leftIndicatorArrow;
+@property (nonatomic, strong) UILabel *rightIndicatorArrow;
 
 @end
 
@@ -23,14 +25,18 @@
 
 -(void)awakeFromNib {
     [super awakeFromNib];
-    [self setUp];
 }
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    
-    [self setUp];
+
     return self;
+}
+
+-(void)layoutSubviews {
+    if (!self.leftIndicatorArrow || !self.rightIndicatorArrow) {
+        [self setUp];
+    }
 }
 
 -(void)setUp {
@@ -39,8 +45,14 @@
     self.contentMode = UIViewContentModeRedraw;
     
     self.pagingEnabled = YES;
-    self.bounces = YES;
+    self.bounces = NO;
     self.showsHorizontalScrollIndicator = YES;
+    
+    [self createImageViews];
+    [self createIndicatorArrows];
+}
+
+-(void)createImageViews {
     
     NSInteger rowsPerPage = 2;
     NSInteger columnsPerPage = 2;
@@ -62,21 +74,32 @@
         }
     }
     
-    self.contentSize = CGSizeMake(self.frame.size.width * [[ImageSelectionScrollView imageFileNames] count] / rowsPerPage, self.frame.size.height);
+    self.contentSize = CGSizeMake(self.frame.size.width * ([[ImageSelectionScrollView imageFileNames] count] + columnsPerPage + rowsPerPage - 1) / (rowsPerPage + columnsPerPage), self.frame.size.height);
     
     [self selectImageInView:(UIImageView *)self.puzzleImageViews[0]];
 }
 
--(NSArray *)puzzleImageViews {
-    if (!_puzzleImageViews) {
-        _puzzleImageViews = [NSMutableArray array];
-    }
+-(void)createIndicatorArrows {
+    self.rightIndicatorArrow = [[UILabel alloc] init];
+    self.rightIndicatorArrow.text = @"→";
+    self.rightIndicatorArrow.textColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.5];
+    self.rightIndicatorArrow.font = [UIFont fontWithName:nil size:self.frame.size.width / 10];
+    [self.rightIndicatorArrow sizeToFit];
+    [self.rightIndicatorArrow addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(arrowScroll:)]];
+    self.rightIndicatorArrow.userInteractionEnabled = YES;
     
-    return _puzzleImageViews;
+    [self addSubview:self.rightIndicatorArrow];
+    
+    self.leftIndicatorArrow = [[UILabel alloc] init];
+    self.leftIndicatorArrow.text = @"←";
+    self.leftIndicatorArrow.textColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.5];
+    self.leftIndicatorArrow.font = [UIFont fontWithName:nil size:self.frame.size.width / 10];
+    [self.leftIndicatorArrow sizeToFit];
+    [self.leftIndicatorArrow addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(arrowScroll:)]];
+    self.leftIndicatorArrow.userInteractionEnabled = YES;
+
+    [self addSubview:self.leftIndicatorArrow];
 }
-
-
-
 
 +(NSArray *)imageFileNames {
     return @[@"TheWitnessBlossoms",
@@ -88,14 +111,49 @@
 
 
 
+#pragma mark - Getters and Setters
+
+-(NSArray *)puzzleImageViews {
+    if (!_puzzleImageViews) {
+        _puzzleImageViews = [NSMutableArray array];
+    }
+    
+    return _puzzleImageViews;
+}
+
+
+
 #pragma mark - Actions
 
 -(void)detectTap:(UITapGestureRecognizer *)tapGestureRecognizer {
     UIImageView *selectedImageView = (UIImageView *)tapGestureRecognizer.view;
     
     [self selectImageInView:selectedImageView];
+}
+
+-(void)arrowScroll:(UITapGestureRecognizer *)arrow {
+    UILabel *arrowLabel = (UILabel *)arrow.view;
     
-    self.selectedImage = selectedImageView.image;
+    if ([arrowLabel.text isEqualToString:@"→"]) {
+        if (self.contentOffset.x < self.contentSize.width - self.frame.size.width) {
+            self.contentOffset = CGPointMake(self.contentOffset.x + self.frame.size.width, self.contentOffset.y);
+        }
+    } else {
+        if (self.contentOffset.x > 0) {
+            self.contentOffset = CGPointMake(self.contentOffset.x - self.frame.size.width, self.contentOffset.y);
+        }
+    }
+}
+
+-(void)selectImageInView:(UIImageView *)selectingImageView {
+    for (UIImageView *imageView in self.puzzleImageViews) {
+        [imageView.layer setBorderColor: [[UIColor clearColor] CGColor]];
+    }
+    
+    [selectingImageView.layer setBorderColor: [[UIColor yellowColor] CGColor]];
+    [selectingImageView.layer setBorderWidth: 2.0];
+    
+    self.selectedImage = selectingImageView.image;
 }
 
 
@@ -111,28 +169,49 @@ int CORNER_RADIUS = 8;
     
     [[UIColor colorWithRed:1 green:1 blue:1 alpha:.2] setFill];
     UIRectFill(self.bounds);
-
     
+    self.rightIndicatorArrow.center = CGPointMake(self.contentOffset.x + 9 * self.frame.size.width / 10, self.frame.size.height / 2);
+    
+    self.leftIndicatorArrow.center = CGPointMake(self.contentOffset.x + 1 * self.frame.size.width / 10, self.frame.size.height / 2);
+    
+    // Hides right arrow if the ScrollView is all the way to the right
+    if (self.contentOffset.x < self.contentSize.width - self.frame.size.width) {
+        if (self.rightIndicatorArrow.textColor == [UIColor clearColor]) {
+            
+            [self.rightIndicatorArrow.layer addAnimation:[self getAnimation] forKey:@"changeTextTransition"];
+            self.rightIndicatorArrow.textColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
+        }
+    } else {
+        if (self.rightIndicatorArrow.textColor != [UIColor clearColor]) {
+            
+            [self.rightIndicatorArrow.layer addAnimation:[self getAnimation] forKey:@"changeTextTransition"];
+            self.rightIndicatorArrow.textColor = [UIColor clearColor];
+        }
+    }
+    
+    // Hides left arrow if the ScrollView is all the way to the left
     if (self.contentOffset.x > 0) {
-//        UIImage *arrowImage = [UIImage imageNamed:@"Arrow"];
-//        arrowImage = [UIImage imageWithCGImage:arrowImage.CGImage scale:2.0 orientation:UIImageOrientationDown];
-//        UIImageView *arrow = [[UIImageView alloc] initWithImage:arrowImage];
-//        
-//        arrow.center = CGPointMake(self.frame.size.width * 9 / 10, self.frame.size.height / 2);
-//        [self addSubview:arrow];
+        if (self.leftIndicatorArrow.textColor == [UIColor clearColor]) {
+            
+            [self.leftIndicatorArrow.layer addAnimation:[self getAnimation] forKey:@"changeTextTransition"];
+            self.leftIndicatorArrow.textColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
+        }
+    } else {
+        if (self.leftIndicatorArrow.textColor != [UIColor clearColor]) {
+            
+            [self.leftIndicatorArrow.layer addAnimation:[self getAnimation] forKey:@"changeTextTransition"];
+            self.leftIndicatorArrow.textColor = [UIColor clearColor];
+        }
     }
 }
 
--(void)selectImageInView:(UIImageView *)selectingImageView {
-    for (UIImageView *imageView in self.puzzleImageViews) {
-        [imageView.layer setBorderColor: [[UIColor clearColor] CGColor]];
-    }
+-(CATransition *)getAnimation {
+    CATransition *animation = [CATransition animation];
+    animation.duration = .3;
+    animation.type = kCATransitionFade;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     
-    [selectingImageView.layer setBorderColor: [[UIColor yellowColor] CGColor]];
-    [selectingImageView.layer setBorderWidth: 2.0];
-    
-    self.selectedImage = selectingImageView.image;
+    return animation;
 }
-
 
 @end

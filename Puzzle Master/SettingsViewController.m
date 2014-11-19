@@ -13,7 +13,8 @@
 
 @interface SettingsViewController ()
 
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *confirmButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet PieceNumberView *pieceNumberView;
 @property (weak, nonatomic) IBOutlet ImageSelectionScrollView *imageScrollView;
 @property (nonatomic) NSUInteger widthNum;
@@ -23,49 +24,34 @@
 
 @implementation SettingsViewController
 
+
+
+#pragma mark - Instantiation
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImage];
     
     [self.pieceNumberView setSelectedWidthNum:self.widthNum];
     [self.pieceNumberView setSelectedHeightNum:self.heightNum];
 }
 
+#pragma mark - Actions
 
--(void)setBackgroundImage {
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OakBackground"]];
-    [imageView setFrame:self.view.frame];
+- (IBAction)confirmButtonPushed:(id)sender {
     
-    [self.view addSubview:imageView];
-    [self.view sendSubviewToBack:imageView];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)backButtonPushed:(id)sender {
-    
-    [self showPuzzleRestartWarning];
+    [self exitAndApplySettings];
 
 }
 
--(void)showPuzzleRestartWarning {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Apply New Settings?" message:@"Restart the puzzle in order to apply your new settings?" preferredStyle:UIAlertControllerStyleAlert];
+- (IBAction)cancelButtonPushed:(id)sender {
     
-    UIAlertAction *restartAction = [UIAlertAction actionWithTitle:@"Apply" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self exitAndApplySettings];
-    }];
-    [alert addAction:restartAction];
+    [self exit];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Don't apply" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self exit];
-    }];
-    [alert addAction:cancelAction];
-    
-    [self presentViewController:alert animated:YES completion:nil];
 }
+
+
+
+#pragma mark - Navigation
 
 -(void)exitAndApplySettings{
     NSUInteger controllerIndex = self.navigationController.viewControllers.count - 2;
@@ -85,8 +71,43 @@
 }
 
 -(void)useOldWidthNum:(NSUInteger)widthNum heightNum:(NSUInteger)heightNum image:(UIImage *)image {
-    self.widthNum = widthNum;
-    self.heightNum = heightNum;
+    self.pieceNumberView.selectedWidthNum = 7;
+    self.pieceNumberView.selectedHeightNum = 7;
 }
+
+
+
+#pragma mark - Preferances
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
+
+
+//#pragma mark - Rotation
+//
+//-(void)setConstraintsForPortrait {
+//    
+//}
+//
+//-(void)setConstraintsForLandscape {
+//    
+//}
+//
+//-(BOOL)shouldAutorotate {
+//    return YES;
+//}
+//
+//-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+//    
+//    // If in landscape mode
+//    if (size.width > size.height) {
+//        [self setFramesForLandscape];
+//    } else {
+//        [self setFramesForPortrait];
+//    }
+//    
+//}
 
 @end

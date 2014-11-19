@@ -11,11 +11,12 @@
 		830D11721A1138A000F28682 /* NumberScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 830D11711A1138A000F28682 /* NumberScrollView.m */; };
 		83138BDB1A10940D003AEDEF /* Click-Puzzle-Master.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83138BDA1A10940D003AEDEF /* Click-Puzzle-Master.mp3 */; };
 		83138BDE1A10A006003AEDEF /* ImageSelectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83138BDD1A10A006003AEDEF /* ImageSelectionScrollView.m */; };
-		834642141A0DB23E00B7AFA6 /* ResetButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642131A0DB23E00B7AFA6 /* ResetButton.m */; };
-		834642171A0DB38400B7AFA6 /* SettingsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642161A0DB38400B7AFA6 /* SettingsButton.m */; };
+		832444B61A1AD0E200277A19 /* PUZButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 832444B51A1AD0E200277A19 /* PUZButton.m */; };
+		832444BB1A1BE86000277A19 /* Data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 832444BA1A1BE86000277A19 /* Data.plist */; };
+		832444BD1A1BEB6700277A19 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 832444BC1A1BEB6700277A19 /* Default-568h@2x.png */; };
 		8346421A1A0E0EE400B7AFA6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642191A0E0EE400B7AFA6 /* SettingsViewController.m */; };
-		835568441A0C9E830040C6EE /* Megaman_2_title_theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 835568431A0C9E830040C6EE /* Megaman_2_title_theme.mp3 */; };
 		835568471A0CA01B0040C6EE /* PuzzleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 835568461A0CA01B0040C6EE /* PuzzleView.m */; };
+		836D78431A11D6AC001C7AD4 /* TitleScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 836D78421A11D6AC001C7AD4 /* TitleScreenViewController.m */; };
 		83B5A33C1A0D5E5500692839 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */; };
 		83D69B981A00332000559CBD /* PuzzlePieceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D69B971A00332000559CBD /* PuzzlePieceView.m */; };
 		83EE4BB219F9781500D44A29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EE4BB119F9781500D44A29 /* main.m */; };
@@ -44,15 +45,16 @@
 		83138BDA1A10940D003AEDEF /* Click-Puzzle-Master.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Click-Puzzle-Master.mp3"; sourceTree = "<group>"; };
 		83138BDC1A10A006003AEDEF /* ImageSelectionScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageSelectionScrollView.h; sourceTree = "<group>"; };
 		83138BDD1A10A006003AEDEF /* ImageSelectionScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageSelectionScrollView.m; sourceTree = "<group>"; };
-		834642121A0DB23E00B7AFA6 /* ResetButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetButton.h; sourceTree = "<group>"; };
-		834642131A0DB23E00B7AFA6 /* ResetButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetButton.m; sourceTree = "<group>"; };
-		834642151A0DB38400B7AFA6 /* SettingsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsButton.h; sourceTree = "<group>"; };
-		834642161A0DB38400B7AFA6 /* SettingsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsButton.m; sourceTree = "<group>"; };
+		832444B41A1AD0E200277A19 /* PUZButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PUZButton.h; sourceTree = "<group>"; };
+		832444B51A1AD0E200277A19 /* PUZButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PUZButton.m; sourceTree = "<group>"; };
+		832444BA1A1BE86000277A19 /* Data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Data.plist; sourceTree = "<group>"; };
+		832444BC1A1BEB6700277A19 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		834642181A0E0EE400B7AFA6 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		834642191A0E0EE400B7AFA6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		835568431A0C9E830040C6EE /* Megaman_2_title_theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Megaman_2_title_theme.mp3; sourceTree = "<group>"; };
 		835568451A0CA01B0040C6EE /* PuzzleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleView.h; sourceTree = "<group>"; };
 		835568461A0CA01B0040C6EE /* PuzzleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleView.m; sourceTree = "<group>"; };
+		836D78411A11D6AC001C7AD4 /* TitleScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScreenViewController.h; sourceTree = "<group>"; };
+		836D78421A11D6AC001C7AD4 /* TitleScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScreenViewController.m; sourceTree = "<group>"; };
 		83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83D69B961A00332000559CBD /* PuzzlePieceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzlePieceView.h; sourceTree = "<group>"; };
 		83D69B971A00332000559CBD /* PuzzlePieceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzlePieceView.m; sourceTree = "<group>"; };
@@ -88,9 +90,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		832444B71A1AD0F300277A19 /* MainGameVC */ = {
+			isa = PBXGroup;
+			children = (
+				83EE4BB619F9781500D44A29 /* ViewController.h */,
+				83EE4BB719F9781500D44A29 /* ViewController.m */,
+				835568451A0CA01B0040C6EE /* PuzzleView.h */,
+				835568461A0CA01B0040C6EE /* PuzzleView.m */,
+				83D69B961A00332000559CBD /* PuzzlePieceView.h */,
+				83D69B971A00332000559CBD /* PuzzlePieceView.m */,
+				832444B41A1AD0E200277A19 /* PUZButton.h */,
+				832444B51A1AD0E200277A19 /* PUZButton.m */,
+			);
+			name = MainGameVC;
+			sourceTree = "<group>";
+		};
+		832444B81A1AD10E00277A19 /* TitleVC */ = {
+			isa = PBXGroup;
+			children = (
+				836D78411A11D6AC001C7AD4 /* TitleScreenViewController.h */,
+				836D78421A11D6AC001C7AD4 /* TitleScreenViewController.m */,
+			);
+			name = TitleVC;
+			sourceTree = "<group>";
+		};
+		832444B91A1AD13200277A19 /* SettingsVC */ = {
+			isa = PBXGroup;
+			children = (
+				834642181A0E0EE400B7AFA6 /* SettingsViewController.h */,
+				834642191A0E0EE400B7AFA6 /* SettingsViewController.m */,
+				83050EA51A0EA4E200F25BF5 /* PieceNumberView.h */,
+				83050EA61A0EA4E200F25BF5 /* PieceNumberView.m */,
+				830D11701A1138A000F28682 /* NumberScrollView.h */,
+				830D11711A1138A000F28682 /* NumberScrollView.m */,
+				83138BDC1A10A006003AEDEF /* ImageSelectionScrollView.h */,
+				83138BDD1A10A006003AEDEF /* ImageSelectionScrollView.m */,
+			);
+			name = SettingsVC;
+			sourceTree = "<group>";
+		};
 		83EE4BA319F9781500D44A29 = {
 			isa = PBXGroup;
 			children = (
+				832444BC1A1BEB6700277A19 /* Default-568h@2x.png */,
 				83EE4BAE19F9781500D44A29 /* Puzzle Master */,
 				83EE4BC819F9781600D44A29 /* Puzzle MasterTests */,
 				83EE4BAD19F9781500D44A29 /* Products */,
@@ -110,26 +152,10 @@
 			isa = PBXGroup;
 			children = (
 				83EE4BB919F9781500D44A29 /* Main.storyboard */,
-				83EE4BB619F9781500D44A29 /* ViewController.h */,
-				83EE4BB719F9781500D44A29 /* ViewController.m */,
-				835568451A0CA01B0040C6EE /* PuzzleView.h */,
-				835568461A0CA01B0040C6EE /* PuzzleView.m */,
-				83D69B961A00332000559CBD /* PuzzlePieceView.h */,
-				83D69B971A00332000559CBD /* PuzzlePieceView.m */,
-				834642121A0DB23E00B7AFA6 /* ResetButton.h */,
-				834642131A0DB23E00B7AFA6 /* ResetButton.m */,
-				834642151A0DB38400B7AFA6 /* SettingsButton.h */,
-				834642161A0DB38400B7AFA6 /* SettingsButton.m */,
-				834642181A0E0EE400B7AFA6 /* SettingsViewController.h */,
-				834642191A0E0EE400B7AFA6 /* SettingsViewController.m */,
-				83050EA51A0EA4E200F25BF5 /* PieceNumberView.h */,
-				83050EA61A0EA4E200F25BF5 /* PieceNumberView.m */,
-				830D11701A1138A000F28682 /* NumberScrollView.h */,
-				830D11711A1138A000F28682 /* NumberScrollView.m */,
-				83138BDC1A10A006003AEDEF /* ImageSelectionScrollView.h */,
-				83138BDD1A10A006003AEDEF /* ImageSelectionScrollView.m */,
-				83EE4BBC19F9781500D44A29 /* Images.xcassets */,
 				83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */,
+				832444B81A1AD10E00277A19 /* TitleVC */,
+				832444B71A1AD0F300277A19 /* MainGameVC */,
+				832444B91A1AD13200277A19 /* SettingsVC */,
 				83EE4BAF19F9781500D44A29 /* Supporting Files */,
 			);
 			path = "Puzzle Master";
@@ -139,10 +165,11 @@
 			isa = PBXGroup;
 			children = (
 				83138BDA1A10940D003AEDEF /* Click-Puzzle-Master.mp3 */,
-				835568431A0C9E830040C6EE /* Megaman_2_title_theme.mp3 */,
+				83EE4BBC19F9781500D44A29 /* Images.xcassets */,
 				83EE4BB319F9781500D44A29 /* AppDelegate.h */,
 				83EE4BB419F9781500D44A29 /* AppDelegate.m */,
 				83EE4BB019F9781500D44A29 /* Info.plist */,
+				832444BA1A1BE86000277A19 /* Data.plist */,
 				83EE4BB119F9781500D44A29 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -247,10 +274,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				83EE4BBB19F9781500D44A29 /* Main.storyboard in Resources */,
+				832444BB1A1BE86000277A19 /* Data.plist in Resources */,
 				83138BDB1A10940D003AEDEF /* Click-Puzzle-Master.mp3 in Resources */,
-				835568441A0C9E830040C6EE /* Megaman_2_title_theme.mp3 in Resources */,
 				83B5A33C1A0D5E5500692839 /* LaunchScreen.storyboard in Resources */,
 				83EE4BBD19F9781500D44A29 /* Images.xcassets in Resources */,
+				832444BD1A1BEB6700277A19 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,11 +302,11 @@
 				835568471A0CA01B0040C6EE /* PuzzleView.m in Sources */,
 				83EE4BB819F9781500D44A29 /* ViewController.m in Sources */,
 				8346421A1A0E0EE400B7AFA6 /* SettingsViewController.m in Sources */,
+				832444B61A1AD0E200277A19 /* PUZButton.m in Sources */,
 				83EE4BB519F9781500D44A29 /* AppDelegate.m in Sources */,
-				834642171A0DB38400B7AFA6 /* SettingsButton.m in Sources */,
+				836D78431A11D6AC001C7AD4 /* TitleScreenViewController.m in Sources */,
 				83EE4BB219F9781500D44A29 /* main.m in Sources */,
 				830D11721A1138A000F28682 /* NumberScrollView.m in Sources */,
-				834642141A0DB23E00B7AFA6 /* ResetButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +421,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Puzzle Master/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -403,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Puzzle Master/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
