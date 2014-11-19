@@ -13,7 +13,6 @@
 		83138BDE1A10A006003AEDEF /* ImageSelectionScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83138BDD1A10A006003AEDEF /* ImageSelectionScrollView.m */; };
 		832444B61A1AD0E200277A19 /* PUZButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 832444B51A1AD0E200277A19 /* PUZButton.m */; };
 		832444BB1A1BE86000277A19 /* Data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 832444BA1A1BE86000277A19 /* Data.plist */; };
-		832444BD1A1BEB6700277A19 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 832444BC1A1BEB6700277A19 /* Default-568h@2x.png */; };
 		8346421A1A0E0EE400B7AFA6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 834642191A0E0EE400B7AFA6 /* SettingsViewController.m */; };
 		835568471A0CA01B0040C6EE /* PuzzleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 835568461A0CA01B0040C6EE /* PuzzleView.m */; };
 		836D78431A11D6AC001C7AD4 /* TitleScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 836D78421A11D6AC001C7AD4 /* TitleScreenViewController.m */; };
@@ -48,7 +47,6 @@
 		832444B41A1AD0E200277A19 /* PUZButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PUZButton.h; sourceTree = "<group>"; };
 		832444B51A1AD0E200277A19 /* PUZButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PUZButton.m; sourceTree = "<group>"; };
 		832444BA1A1BE86000277A19 /* Data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Data.plist; sourceTree = "<group>"; };
-		832444BC1A1BEB6700277A19 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		834642181A0E0EE400B7AFA6 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		834642191A0E0EE400B7AFA6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		835568451A0CA01B0040C6EE /* PuzzleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleView.h; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 		83EE4BA319F9781500D44A29 = {
 			isa = PBXGroup;
 			children = (
-				832444BC1A1BEB6700277A19 /* Default-568h@2x.png */,
 				83EE4BAE19F9781500D44A29 /* Puzzle Master */,
 				83EE4BC819F9781600D44A29 /* Puzzle MasterTests */,
 				83EE4BAD19F9781500D44A29 /* Products */,
@@ -278,7 +275,6 @@
 				83138BDB1A10940D003AEDEF /* Click-Puzzle-Master.mp3 in Resources */,
 				83B5A33C1A0D5E5500692839 /* LaunchScreen.storyboard in Resources */,
 				83EE4BBD19F9781500D44A29 /* Images.xcassets in Resources */,
-				832444BD1A1BEB6700277A19 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

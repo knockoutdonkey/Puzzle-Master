@@ -47,12 +47,21 @@
                                     <segue destination="vXZ-lx-hvc" kind="show" id="VWo-xU-gaR"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="High score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mi2-aW-ifc">
+                                <rect key="frame" x="54" y="510" width="213" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="E7Y-a7-Hj9"/>
+                                    <constraint firstAttribute="width" constant="213" id="nwr-2k-SD5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="alT-N2-SiR" firstAttribute="leading" secondItem="Uyd-Yx-nyn" secondAttribute="leadingMargin" id="0OY-Jj-rFz"/>
                             <constraint firstAttribute="centerY" secondItem="dzW-ei-RIm" secondAttribute="centerY" id="2CI-HQ-m8L"/>
-                            <constraint firstAttribute="centerY" secondItem="alT-N2-SiR" secondAttribute="centerY" constant="182" id="67I-Tt-1rK"/>
                             <constraint firstItem="WjX-6V-t62" firstAttribute="leading" secondItem="Uyd-Yx-nyn" secondAttribute="leadingMargin" constant="67" id="A6R-QZ-e1I"/>
                             <constraint firstItem="dzW-ei-RIm" firstAttribute="leading" secondItem="Uyd-Yx-nyn" secondAttribute="leading" id="CnU-rY-Stj"/>
                             <constraint firstItem="dzW-ei-RIm" firstAttribute="top" secondItem="Uyd-Yx-nyn" secondAttribute="top" id="DOh-pW-5Bv"/>
@@ -65,11 +74,16 @@
                             <constraint firstAttribute="trailingMargin" secondItem="xSa-oX-BQA" secondAttribute="trailing" constant="-16" id="aos-oG-mmF"/>
                             <constraint firstAttribute="trailing" secondItem="dzW-ei-RIm" secondAttribute="trailing" id="gvk-oS-hgY"/>
                             <constraint firstAttribute="centerY" secondItem="WjX-6V-t62" secondAttribute="centerY" id="hxX-kD-Jjb"/>
+                            <constraint firstItem="UBC-Wy-tZA" firstAttribute="top" secondItem="Mi2-aW-ifc" secondAttribute="bottom" constant="20" id="jEJ-DW-j8z"/>
                             <constraint firstItem="alT-N2-SiR" firstAttribute="top" secondItem="LyK-Jw-NrV" secondAttribute="bottom" id="oCc-sq-c3u"/>
                             <constraint firstAttribute="centerX" secondItem="WjX-6V-t62" secondAttribute="centerX" id="v6s-Qc-1OL"/>
+                            <constraint firstAttribute="centerX" secondItem="Mi2-aW-ifc" secondAttribute="centerX" id="ysk-fE-BAT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bUK-or-ZiQ"/>
+                    <connections>
+                        <outlet property="highScoreLabel" destination="Mi2-aW-ifc" id="esD-ZU-U4s"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tyr-CU-Aj1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -187,7 +201,6 @@
                     <navigationItem key="navigationItem" id="0UB-GS-kIb"/>
                     <connections>
                         <outlet property="puzzle" destination="kTx-m2-Qc1" id="4re-Fy-6m6"/>
-                        <outlet property="resetButton" destination="kTx-m2-Qc1" id="BRQ-rD-EEC"/>
                         <outlet property="settingsButton" destination="m8C-Gt-2gh" id="JZj-Bg-7mb"/>
                         <outlet property="timerButton" destination="foc-O7-R7I" id="deu-qq-zFb"/>
                     </connections>

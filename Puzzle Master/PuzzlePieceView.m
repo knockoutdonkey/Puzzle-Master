@@ -395,7 +395,7 @@
 
 #pragma mark - Matching Methods
 
-double MARGIN_OF_MATCHING_ERROR = .4;
+double MARGIN_OF_MATCHING_ERROR = .5;
 
 -(CGPoint) neighborPointUp { return CGPointMake(self.center.x, self.center.y - self.frame.size.height); }
 -(CGPoint) neighborPointRight { return CGPointMake(self.center.x  + self.frame.size.width, self.center.y); }

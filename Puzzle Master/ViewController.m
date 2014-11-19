@@ -79,12 +79,17 @@
 }
 
 -(void)getHighScore {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Data" ofType:@"plist"];
+
+    // Get documents directory path for Data.plist
+    NSArray *allPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectoryPath = [allPaths objectAtIndex:0];
+    NSString *plistPath = [documentsDirectoryPath stringByAppendingPathComponent:@"Data.plist"];
     
-    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:path];
-    self.highScore = [(NSNumber *)[dictionary objectForKey:@"High score"] integerValue];
-    
+    NSMutableDictionary *savedData = [[NSMutableDictionary alloc] initWithContentsOfFile: plistPath];
+    self.highScore = [[savedData objectForKey:@"High score"] integerValue];
 }
+
+
 
 #pragma mark - Actions
 
@@ -121,6 +126,29 @@
 
 -(void)puzzleCompleted {
     [self pauseTimer];
+    
+    [self saveHighScore];
+}
+
+-(void)saveHighScore {
+    
+    // Gets path and contents for Data.plist
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); //1
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectoryPath = [documentsDirectory stringByAppendingPathComponent:@"Data.plist"];
+    NSMutableDictionary* plist = [[NSMutableDictionary alloc] init];
+    
+    if (self.highScore < [self calculateScore]) {
+        [plist setValue:[NSNumber numberWithInt:[self calculateScore]] forKey:@"High score"];
+        [plist writeToFile:documentsDirectoryPath atomically:YES];
+        
+        self.highScore = [self calculateScore];
+    }
+}
+
+-(NSInteger)calculateScore {
+    NSInteger numOfPieces = self.puzzle.widthNum * self.puzzle.heightNum;
+    return numOfPieces * 5 - self.timeElapsed;
 }
 
 

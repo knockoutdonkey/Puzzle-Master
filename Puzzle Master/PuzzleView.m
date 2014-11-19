@@ -197,7 +197,7 @@ double AMOUNT_OF_SUPERVIEW_HEIGHT_USED = .5;
     if (!_pieceWidth) {
     
         if ([self horizontal]) {
-            _pieceWidth = self.frame.size.width  * AMOUNT_OF_SUPERVIEW_HEIGHT_USED / self.widthNum;
+            _pieceWidth = self.frame.size.height / self.widthNum;
         } else {
            _pieceWidth = self.frame.size.width / self.widthNum;
         }
@@ -209,7 +209,7 @@ double AMOUNT_OF_SUPERVIEW_HEIGHT_USED = .5;
 -(CGFloat) pieceHeight {
     if (!_pieceHeight) {
         if ([self horizontal]) {
-            _pieceHeight = self.frame.size.height / self.heightNum;
+            _pieceHeight = self.frame.size.width * AMOUNT_OF_SUPERVIEW_HEIGHT_USED / self.heightNum;
         } else {
             _pieceHeight = self.frame.size.height * AMOUNT_OF_SUPERVIEW_HEIGHT_USED / self.heightNum;
         }

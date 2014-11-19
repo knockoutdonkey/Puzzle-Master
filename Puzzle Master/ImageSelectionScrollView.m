@@ -83,7 +83,7 @@
     self.rightIndicatorArrow = [[UILabel alloc] init];
     self.rightIndicatorArrow.text = @"→";
     self.rightIndicatorArrow.textColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.5];
-    self.rightIndicatorArrow.font = [UIFont fontWithName:nil size:self.frame.size.width / 10];
+    self.rightIndicatorArrow.font = [UIFont fontWithName:nil size:self.frame.size.width / 8];
     [self.rightIndicatorArrow sizeToFit];
     [self.rightIndicatorArrow addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(arrowScroll:)]];
     self.rightIndicatorArrow.userInteractionEnabled = YES;
@@ -93,7 +93,7 @@
     self.leftIndicatorArrow = [[UILabel alloc] init];
     self.leftIndicatorArrow.text = @"←";
     self.leftIndicatorArrow.textColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.5];
-    self.leftIndicatorArrow.font = [UIFont fontWithName:nil size:self.frame.size.width / 10];
+    self.leftIndicatorArrow.font = [UIFont fontWithName:nil size:self.frame.size.width / 8];
     [self.leftIndicatorArrow sizeToFit];
     [self.leftIndicatorArrow addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(arrowScroll:)]];
     self.leftIndicatorArrow.userInteractionEnabled = YES;
