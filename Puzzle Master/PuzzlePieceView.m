@@ -77,7 +77,7 @@
     
     contentLayer.contents = (id)[self.puzzleImage CGImage];
     contentLayer.mask = mask;
-    [[self layer]addSublayer:contentLayer];
+    [self.layer addSublayer:contentLayer];
     
 //    Note: Can't add a shadow to each piece without taking a big hit to framerate
 //
@@ -93,7 +93,7 @@
 //    
 //    [[self layer]addSublayer:shadowLayer];
     
-    [[self layer]addSublayer:contentLayer];
+    [self.layer addSublayer:contentLayer];
     
     CAShapeLayer *outlineLayer = [CAShapeLayer layer];
     outlineLayer.position = CGPointMake(-self.frame.origin.x, -self.frame.origin.y);
@@ -102,7 +102,7 @@
     outlineLayer.fillColor = [[UIColor clearColor] CGColor];
     outlineLayer.path = [path CGPath];
     
-    [[self layer]addSublayer:outlineLayer];
+    [self.layer addSublayer:outlineLayer];
 }
 
 -(UIBezierPath *)createPath {

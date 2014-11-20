@@ -11,8 +11,12 @@
 
 @interface PieceNumberView() <UIScrollViewDelegate>
 
+// Subviews
 @property (nonatomic, strong) NumberScrollView *bottemNSV;
 @property (nonatomic, strong) NumberScrollView *sideNSV;
+
+// Rotation based properties
+@property (nonatomic) CGSize oldSize;
 
 @end
 
@@ -36,6 +40,12 @@
     if (!self.bottemNSV && !self.sideNSV) {
         [self setUp];
     }
+    
+    if (self.frame.size.width != self.oldSize.width ||
+        self.frame.size.height != self.oldSize.height) {
+        [self newFrameAdjustments];
+    }
+    self.oldSize = self.frame.size;
 }
 
 -(void)setUp {
@@ -45,27 +55,47 @@
     // Make frame square
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.width);
     
+    // Get maximum puzzle size based on device
+    NSInteger maxPieceNumber;
+    
+    if ([[UIDevice currentDevice].model isEqualToString:@"iPad"] ||
+        [[UIDevice currentDevice].model isEqualToString:@"iPad Simulator"]) {
+        maxPieceNumber = 10;
+    } else {
+        maxPieceNumber = 7;
+    }
+    
     self.bottemNSV = [[NumberScrollView alloc] initWithFrame:
-                      CGRectMake([self SQUARE_WIDTH] / 4 + [self ARROW_HEIGHT] + [self INDENT_LENGTH] * 2,
-                                 [self SQUARE_WIDTH] + [self INDENT_LENGTH] * 2,
+                      CGRectMake(0,
+                                 0,
                                  [self SQUARE_WIDTH] / 2,
                                  [self ARROW_HEIGHT])
-                                               withMinNumber:2 withMaxNumber:self.frame.size.width / 30];
+                                               withMinNumber:2
+                                               withMaxNumber:maxPieceNumber];
     self.bottemNSV.currentValue = 5;
     self.bottemNSV.delegate = self;
     [self addSubview:self.bottemNSV];
     
     self.sideNSV = [[NumberScrollView alloc] initWithFrame:
-                    CGRectMake([self INDENT_LENGTH],
-                               [self SQUARE_WIDTH] / 3,
+                    CGRectMake(0,
+                               0,
                                [self ARROW_HEIGHT],
                                [self SQUARE_WIDTH] / 2)
-                                             withMinNumber:2 withMaxNumber:self.frame.size.height / 30];
+                                             withMinNumber:2
+                                             withMaxNumber:maxPieceNumber];
     self.sideNSV.currentValue = 5;
     self.sideNSV.delegate = self;
     [self addSubview:self.sideNSV];
+    
+    [self recenterNSVs];
 }
 
+-(void)recenterNSVs {
+    self.bottemNSV.center = CGPointMake([self INDENT_LENGTH] * 2 + [self ARROW_HEIGHT] + [self SQUARE_WIDTH] / 2,
+                                        [self INDENT_LENGTH] * 2 + [self SQUARE_WIDTH] + [self ARROW_HEIGHT] / 2);
+    self.sideNSV.center = CGPointMake([self INDENT_LENGTH] + [self ARROW_HEIGHT] / 2,
+                                      [self INDENT_LENGTH] + [self SQUARE_WIDTH] / 2);
+}
 
 
 
@@ -108,7 +138,7 @@ int CONER_RADIUS = 8;
     [outline addClip];
     [[UIColor colorWithRed:1 green:1 blue:1 alpha:.2] setFill];
     UIRectFill(self.bounds);
-    
+
     // Draw each square cell
     for (NSUInteger widthIndex = 0; widthIndex < self.selectedWidthNum; widthIndex++) {
         for (NSUInteger heightIndex = 0; heightIndex < self.selectedHeightNum; heightIndex++) {
@@ -123,6 +153,14 @@ int CONER_RADIUS = 8;
             [squareCell stroke];
         }
     }
+}
+
+-(void)newFrameAdjustments {
+    // Align each Number Scroll View
+    [self recenterNSVs];
+    
+    // Allow square to be redrawn to correct size
+    [self setNeedsDisplay];
 }
 
 

@@ -83,31 +83,4 @@
     return UIStatusBarStyleLightContent;
 }
 
-
-
-//#pragma mark - Rotation
-//
-//-(void)setConstraintsForPortrait {
-//    
-//}
-//
-//-(void)setConstraintsForLandscape {
-//    
-//}
-//
-//-(BOOL)shouldAutorotate {
-//    return YES;
-//}
-//
-//-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-//    
-//    // If in landscape mode
-//    if (size.width > size.height) {
-//        [self setFramesForLandscape];
-//    } else {
-//        [self setFramesForPortrait];
-//    }
-//    
-//}
-
 @end

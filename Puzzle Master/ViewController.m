@@ -148,7 +148,7 @@
 
 -(NSInteger)calculateScore {
     NSInteger numOfPieces = self.puzzle.widthNum * self.puzzle.heightNum;
-    return numOfPieces * 5 - self.timeElapsed;
+    return numOfPieces * 4 - self.timeElapsed;
 }
 
 
@@ -170,6 +170,21 @@
     [self.timer invalidate];
 }
 
+// Not Tested
+-(void)unpauseTimer {
+    self.timer = [NSTimer timerWithTimeInterval: 1.0
+                                         target:self
+                                       selector:@selector(updateTimer)
+                                       userInfo:nil
+                                        repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:UITrackingRunLoopMode];
+}
+
+
+
+#pragma mark - Rotation
+
 
 
 #pragma mark - Navigation
@@ -183,8 +198,12 @@
     }
 }
 
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
+
+
+#pragma mark - ViewController Preferences
+
+-(BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 @end

@@ -18,6 +18,7 @@
 		836D78431A11D6AC001C7AD4 /* TitleScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 836D78421A11D6AC001C7AD4 /* TitleScreenViewController.m */; };
 		83B5A33C1A0D5E5500692839 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */; };
 		83D69B981A00332000559CBD /* PuzzlePieceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D69B971A00332000559CBD /* PuzzlePieceView.m */; };
+		83E51B311A1DE6870094B08E /* digital-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83E51B2D1A1DDD8C0094B08E /* digital-7.ttf */; };
 		83EE4BB219F9781500D44A29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EE4BB119F9781500D44A29 /* main.m */; };
 		83EE4BB519F9781500D44A29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EE4BB419F9781500D44A29 /* AppDelegate.m */; };
 		83EE4BB819F9781500D44A29 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EE4BB719F9781500D44A29 /* ViewController.m */; };
@@ -56,6 +57,7 @@
 		83B5A33B1A0D5E5500692839 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83D69B961A00332000559CBD /* PuzzlePieceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzlePieceView.h; sourceTree = "<group>"; };
 		83D69B971A00332000559CBD /* PuzzlePieceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzlePieceView.m; sourceTree = "<group>"; };
+		83E51B2D1A1DDD8C0094B08E /* digital-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "digital-7.ttf"; path = "../../../Downloads/style-7_digital-7/digital-7.ttf"; sourceTree = "<group>"; };
 		83EE4BAC19F9781500D44A29 /* Puzzle Master.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Puzzle Master.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		83EE4BB019F9781500D44A29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83EE4BB119F9781500D44A29 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				83EE4BB019F9781500D44A29 /* Info.plist */,
 				832444BA1A1BE86000277A19 /* Data.plist */,
 				83EE4BB119F9781500D44A29 /* main.m */,
+				83E51B2D1A1DDD8C0094B08E /* digital-7.ttf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83E51B311A1DE6870094B08E /* digital-7.ttf in Resources */,
 				83EE4BBB19F9781500D44A29 /* Main.storyboard in Resources */,
 				832444BB1A1BE86000277A19 /* Data.plist in Resources */,
 				83138BDB1A10940D003AEDEF /* Click-Puzzle-Master.mp3 in Resources */,

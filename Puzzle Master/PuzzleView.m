@@ -28,8 +28,9 @@
 // Music Player for Puzzle Actions
 @property (nonatomic, strong) AVAudioPlayer *player;
 
-//// Delegate Object
-//@property (nonatomic, strong)
+// Rotation based properties
+@property (nonatomic) CGSize oldSize;
+
 
 @end
 
@@ -64,11 +65,20 @@ NSUInteger const DEFAULT_HEIGHT_NUM = 4;
     if ([self.pieces count] == 0) {
         [self setUp];
     }
+    
+    if (self.frame.size.width != self.oldSize.width ||
+        self.frame.size.height != self.oldSize.height) {
+        [self reflectPieces];
+    }
+    self.oldSize = self.frame.size;
+    
 }
 
 -(void)setUp{
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
+    
+    self.oldSize = self.frame.size;
     
     [self createPieces];
     [self randomlyMovePieces];
@@ -152,10 +162,11 @@ NSUInteger const DEFAULT_HEIGHT_NUM = 4;
 -(void)randomlyMovePieces {
     
     NSMutableArray *possibleLocations = [[NSMutableArray alloc]init];
+    NSInteger TOP_INDENT = 0;
     
     for (NSUInteger heightIndex = 0; heightIndex < self.heightNum; heightIndex++) {
         for (NSUInteger widthIndex = 0; widthIndex < self.widthNum; widthIndex++) {
-            [possibleLocations addObject:[NSValue valueWithCGPoint:CGPointMake((widthIndex + .5) * self.pieceWidth, (heightIndex + .5) * self.pieceHeight)]];
+            [possibleLocations addObject:[NSValue valueWithCGPoint:CGPointMake((widthIndex + .5) * self.pieceWidth, (heightIndex + .5) * self.pieceHeight + TOP_INDENT)]];
         }
     }
     
@@ -228,6 +239,35 @@ double AMOUNT_OF_SUPERVIEW_HEIGHT_USED = .5;
     }
     
     return _player;
+}
+
+#pragma mark - View Functions
+
+-(void)reflectPieces {
+    NSMutableArray *pieces = [[NSMutableArray alloc] initWithArray:self.pieces];
+    
+    for (PuzzlePieceView *piece in self.pieces) {
+        
+        if ([pieces containsObject:piece]) {
+            
+            // Obtain average center
+            CGPoint averageCenter = CGPointMake(0, 0);
+            NSInteger iteration = 0;
+            for (PuzzlePieceView *connectedPiece in piece.connectedPieces) {
+                averageCenter = CGPointMake((averageCenter.x * iteration + connectedPiece.center.x) / (iteration + 1),
+                                            (averageCenter.y * iteration + connectedPiece.center.y) / (iteration + 1));
+                iteration++;
+            }
+            
+            CGPoint translation = CGPointMake(averageCenter.y - averageCenter.x, averageCenter.x - averageCenter.y);
+            for (PuzzlePieceView *connectedPiece in piece.connectedPieces) {
+                connectedPiece.center = CGPointMake(connectedPiece.center.x + translation.x,
+                                                    connectedPiece.center.y + translation.y);
+                [pieces removeObject:connectedPiece];
+            }
+        }
+        
+    }
 }
 
 

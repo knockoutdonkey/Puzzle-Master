@@ -11,9 +11,13 @@
 
 @interface ImageSelectionScrollView()
 
+// Subviews
 @property (nonatomic, strong) NSMutableArray *puzzleImageViews;
 @property (nonatomic, strong) UILabel *leftIndicatorArrow;
 @property (nonatomic, strong) UILabel *rightIndicatorArrow;
+
+// Rotation based properties
+@property (nonatomic) CGSize oldSize;
 
 @end
 
@@ -37,6 +41,12 @@
     if (!self.leftIndicatorArrow || !self.rightIndicatorArrow) {
         [self setUp];
     }
+    
+    if (self.frame.size.width != self.oldSize.width ||
+        self.frame.size.height != self.oldSize.height) {
+        [self newFrameAdjustments];
+    }
+    self.oldSize = self.frame.size;
 }
 
 -(void)setUp {
@@ -52,17 +62,18 @@
     [self createIndicatorArrows];
 }
 
+NSInteger ROWS_PER_PAGE = 2;
+NSInteger COLUMNS_PER_PAGE = 2;
+-(NSInteger)indentSize { return self.frame.size.height / ROWS_PER_PAGE / 6; };
+
 -(void)createImageViews {
     
-    NSInteger rowsPerPage = 2;
-    NSInteger columnsPerPage = 2;
-    NSInteger indentSize = self.frame.size.height / rowsPerPage / 6;
-    for (int i = 0; i < [[ImageSelectionScrollView imageFileNames] count] / columnsPerPage + .99; i++) {
-        for (int j = 0; j < rowsPerPage; j++) {
-            if (i * rowsPerPage + j < [[ImageSelectionScrollView imageFileNames] count]) {
-                UIImageView *puzzleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:(NSString *)[ImageSelectionScrollView imageFileNames][i * rowsPerPage + j]]];
-                puzzleImageView.center = CGPointMake((i + .5) * self.frame.size.width / columnsPerPage, (j + .5) * self.frame.size.height / rowsPerPage);
-                [puzzleImageView setBounds:CGRectMake(puzzleImageView.frame.origin.x, puzzleImageView.frame.origin.y, self.frame.size.width / columnsPerPage - 2 * indentSize, self.frame.size.height / rowsPerPage - 2 * indentSize)];
+    for (int i = 0; i < [[ImageSelectionScrollView imageFileNames] count] / COLUMNS_PER_PAGE + .99; i++) {
+        for (int j = 0; j < ROWS_PER_PAGE; j++) {
+            if (i * ROWS_PER_PAGE + j < [[ImageSelectionScrollView imageFileNames] count]) {
+                UIImageView *puzzleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:(NSString *)[ImageSelectionScrollView imageFileNames][i * ROWS_PER_PAGE + j]]];
+                puzzleImageView.center = CGPointMake((i + .5) * self.frame.size.width / COLUMNS_PER_PAGE, (j + .5) * self.frame.size.height / ROWS_PER_PAGE);
+                [puzzleImageView setBounds:CGRectMake(puzzleImageView.frame.origin.x, puzzleImageView.frame.origin.y, self.frame.size.width / COLUMNS_PER_PAGE - 2 * [self indentSize], self.frame.size.height / ROWS_PER_PAGE - 2 * [self indentSize])];
                 
                 UITapGestureRecognizer *tapRecognzier = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(detectTap:)];
                 puzzleImageView.userInteractionEnabled = YES;
@@ -74,7 +85,7 @@
         }
     }
     
-    self.contentSize = CGSizeMake(self.frame.size.width * ([[ImageSelectionScrollView imageFileNames] count] + columnsPerPage + rowsPerPage - 1) / (rowsPerPage + columnsPerPage), self.frame.size.height);
+    self.contentSize = CGSizeMake(self.frame.size.width * ([[ImageSelectionScrollView imageFileNames] count] + COLUMNS_PER_PAGE + ROWS_PER_PAGE - 1) / (ROWS_PER_PAGE + COLUMNS_PER_PAGE), self.frame.size.height);
     
     [self selectImageInView:(UIImageView *)self.puzzleImageViews[0]];
 }
@@ -170,9 +181,7 @@ int CORNER_RADIUS = 8;
     [[UIColor colorWithRed:1 green:1 blue:1 alpha:.2] setFill];
     UIRectFill(self.bounds);
     
-    self.rightIndicatorArrow.center = CGPointMake(self.contentOffset.x + 9 * self.frame.size.width / 10, self.frame.size.height / 2);
-    
-    self.leftIndicatorArrow.center = CGPointMake(self.contentOffset.x + 1 * self.frame.size.width / 10, self.frame.size.height / 2);
+    [self recenterIndicatorArrows];
     
     // Hides right arrow if the ScrollView is all the way to the right
     if (self.contentOffset.x < self.contentSize.width - self.frame.size.width) {
@@ -205,6 +214,12 @@ int CORNER_RADIUS = 8;
     }
 }
 
+-(void)recenterIndicatorArrows {
+    self.rightIndicatorArrow.center = CGPointMake(self.contentOffset.x + 9 * self.frame.size.width / 10, self.frame.size.height / 2);
+    
+    self.leftIndicatorArrow.center = CGPointMake(self.contentOffset.x + 1 * self.frame.size.width / 10, self.frame.size.height / 2);
+}
+
 -(CATransition *)getAnimation {
     CATransition *animation = [CATransition animation];
     animation.duration = .3;
@@ -212,6 +227,21 @@ int CORNER_RADIUS = 8;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     
     return animation;
+}
+
+-(void)newFrameAdjustments {
+    [self setNeedsDisplay];
+    
+    for (int i = 0; i < [self.puzzleImageViews count] / COLUMNS_PER_PAGE + .99; i++) {
+        for (int j = 0; j < ROWS_PER_PAGE; j++) {
+            if (i * ROWS_PER_PAGE + j < [self.puzzleImageViews count]) {
+                
+                UIImageView *puzzleImageView = self.puzzleImageViews[i * COLUMNS_PER_PAGE + j];
+                puzzleImageView.center = CGPointMake((i + .5) * self.frame.size.width / COLUMNS_PER_PAGE, (j + .5) * self.frame.size.height / ROWS_PER_PAGE);
+                puzzleImageView.bounds = CGRectMake(puzzleImageView.frame.origin.x, puzzleImageView.frame.origin.y, self.frame.size.width / COLUMNS_PER_PAGE - 2 * [self indentSize], self.frame.size.height / ROWS_PER_PAGE - 2 * [self indentSize]);
+            }
+        }
+    }
 }
 
 @end

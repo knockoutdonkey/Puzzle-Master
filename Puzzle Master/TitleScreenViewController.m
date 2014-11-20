@@ -50,10 +50,10 @@
         [fileManager copyItemAtPath:bundle toPath:plistPath error:&error];
     }
     
+    // Obtain high score from plist and set it to high score label
     NSMutableDictionary *savedData = [[NSMutableDictionary alloc] initWithContentsOfFile: plistPath];
     NSInteger highScore = [[savedData objectForKey:@"High score"] integerValue];
     
-    //
     self.highScoreLabel.text = [NSString stringWithFormat:@"High score: %d", highScore];
 
 }
