@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface PuzzlePieceView : UIButton
+@interface PuzzlePieceView : UIView
 
 @property (nonatomic, readonly) NSUInteger widthIndex;
 @property (nonatomic, readonly) NSUInteger heightIndex;
@@ -29,6 +29,7 @@
 // PuzzlePiece Manipulation Methods
 -(void)moveWithConnectedPiece:(CGPoint)translation;
 -(void)checkForNewMatches;
+-(void)selectPiece;
 
 // Puzzle Piece Information Methods
 +(NSUInteger)numberOfEdgeTypes;

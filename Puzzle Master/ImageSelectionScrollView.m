@@ -84,8 +84,8 @@ NSInteger COLUMNS_PER_PAGE = 2;
             }
         }
     }
-    
-    self.contentSize = CGSizeMake(self.frame.size.width * ([[ImageSelectionScrollView imageFileNames] count] + COLUMNS_PER_PAGE + ROWS_PER_PAGE - 1) / (ROWS_PER_PAGE + COLUMNS_PER_PAGE), self.frame.size.height);
+
+    self.contentSize = CGSizeMake(self.frame.size.width * (([[ImageSelectionScrollView imageFileNames] count] + (COLUMNS_PER_PAGE * ROWS_PER_PAGE) - 1) / (COLUMNS_PER_PAGE * ROWS_PER_PAGE)), self.frame.size.height);
     
     [self selectImageInView:(UIImageView *)self.puzzleImageViews[0]];
 }

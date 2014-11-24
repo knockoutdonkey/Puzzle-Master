@@ -466,10 +466,6 @@ double MARGIN_OF_MATCHING_ERROR = .5;
 }
 
 // Sets old center upon being touched and moves piece and all connected pieces to the front of the subivews in the Superview
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self selectPiece];
-}
 
 -(void)selectPiece {
     for (PuzzlePieceView *piece in self.connectedPieces) {

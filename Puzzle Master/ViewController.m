@@ -156,9 +156,11 @@
 #pragma mark - Timer Interaction
 
 -(void)updateTimer {
-    _timeElapsed++;
-    
-    [self.timerButton setTitle:[NSString stringWithFormat:@"%d:%02d", _timeElapsed / 60, _timeElapsed % 60] forState:UIControlStateNormal];
+    if (_timeElapsed < 3599) {
+        _timeElapsed++;
+        
+        [self.timerButton setTitle:[NSString stringWithFormat:@"%02d:%02d", _timeElapsed / 60, _timeElapsed % 60] forState:UIControlStateNormal];
+    }
 }
 
 -(void)restartTimer {

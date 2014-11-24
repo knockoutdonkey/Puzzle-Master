@@ -62,7 +62,7 @@
         [[UIDevice currentDevice].model isEqualToString:@"iPad Simulator"]) {
         maxPieceNumber = 10;
     } else {
-        maxPieceNumber = 7;
+        maxPieceNumber = 8;
     }
     
     self.bottemNSV = [[NumberScrollView alloc] initWithFrame:

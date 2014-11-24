@@ -310,12 +310,30 @@ double AMOUNT_OF_SUPERVIEW_HEIGHT_USED = .5;
 -(void)detectDrag:(UIPanGestureRecognizer *)panGestureRecognizer {
     PuzzlePieceView *selectedPiece = (PuzzlePieceView *)panGestureRecognizer.view;
     
+    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        
+        [selectedPiece selectPiece];
+        for (PuzzlePieceView *otherPiece in self.pieces) {
+            if (otherPiece != selectedPiece) {
+                [(UIGestureRecognizer *)otherPiece.gestureRecognizers[0] setEnabled:NO];
+            }
+        }
+        
+    }
+    
     CGPoint translation = [panGestureRecognizer translationInView:self];
     [selectedPiece moveWithConnectedPiece:translation];
     
     panGestureRecognizer.cancelsTouchesInView = NO;
     
     if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        
+        for (PuzzlePieceView *otherPiece in self.pieces) {
+            if (otherPiece != selectedPiece) {
+                [(UIGestureRecognizer *)otherPiece.gestureRecognizers[0] setEnabled:YES
+                 ];
+            }
+        }
         
         NSInteger oldMatchesNum = [selectedPiece.connectedPieces count];
         [selectedPiece checkForNewMatches];

@@ -115,7 +115,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kTx-m2-Qc1" customClass="PuzzleView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WoodenBackground" translatesAutoresizingMaskIntoConstraints="NO" id="x6m-tI-UPn">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WoodenBackground" translatesAutoresizingMaskIntoConstraints="NO" id="foP-RC-y4I">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m8C-Gt-2gh" customClass="PUZButton">
@@ -183,8 +183,8 @@
                                             <constraint firstAttribute="height" constant="51" id="AmR-o9-zRN"/>
                                             <constraint firstAttribute="width" secondItem="foc-O7-R7I" secondAttribute="height" multiplier="1:1" id="S5u-fw-18H"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Digital-7" family="Digital-7" pointSize="25"/>
-                                        <state key="normal" title="0:00">
+                                        <fontDescription key="fontDescription" name="Digital-7" family="Digital-7" pointSize="20"/>
+                                        <state key="normal" title="00:00">
                                             <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -192,7 +192,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="x6m-tI-UPn" secondAttribute="trailing" id="322-JI-0Ud"/>
+                                    <constraint firstAttribute="bottom" secondItem="foP-RC-y4I" secondAttribute="bottom" id="41j-ab-CCG"/>
                                     <constraint firstAttribute="bottom" secondItem="m8C-Gt-2gh" secondAttribute="bottom" constant="28" id="5aU-wc-Ivu"/>
                                     <constraint firstAttribute="trailing" secondItem="foc-O7-R7I" secondAttribute="trailing" constant="67" id="7Ef-my-TTy"/>
                                     <constraint firstItem="m8C-Gt-2gh" firstAttribute="top" secondItem="kTx-m2-Qc1" secondAttribute="top" constant="8" id="9oE-QK-S9C"/>
@@ -200,13 +200,15 @@
                                     <constraint firstItem="l47-WN-hjT" firstAttribute="leading" secondItem="kTx-m2-Qc1" secondAttribute="leading" constant="8" id="Cdn-V8-rVs"/>
                                     <constraint firstAttribute="bottom" secondItem="foc-O7-R7I" secondAttribute="bottom" constant="8" id="FwI-Aq-ekV"/>
                                     <constraint firstItem="foc-O7-R7I" firstAttribute="top" secondItem="kTx-m2-Qc1" secondAttribute="top" constant="67" id="GVH-fD-5H6"/>
+                                    <constraint firstAttribute="trailing" secondItem="foP-RC-y4I" secondAttribute="trailing" id="HmP-jS-mAc"/>
                                     <constraint firstItem="m8C-Gt-2gh" firstAttribute="top" secondItem="l47-WN-hjT" secondAttribute="top" id="JC9-AS-ztx"/>
                                     <constraint firstAttribute="trailing" secondItem="foc-O7-R7I" secondAttribute="trailing" constant="8" id="K1U-EZ-hi1"/>
                                     <constraint firstAttribute="bottom" secondItem="l47-WN-hjT" secondAttribute="bottom" constant="8" id="MVS-Mb-JtY"/>
                                     <constraint firstItem="m8C-Gt-2gh" firstAttribute="bottom" secondItem="l47-WN-hjT" secondAttribute="bottom" id="NXY-PI-VKs"/>
-                                    <constraint firstItem="x6m-tI-UPn" firstAttribute="top" secondItem="kTx-m2-Qc1" secondAttribute="top" id="S1Q-rO-rtd"/>
                                     <constraint firstItem="m8C-Gt-2gh" firstAttribute="leading" secondItem="foc-O7-R7I" secondAttribute="trailing" constant="8" id="Wn5-hL-Fzw"/>
+                                    <constraint firstItem="foP-RC-y4I" firstAttribute="top" secondItem="kTx-m2-Qc1" secondAttribute="top" id="aFQ-HT-4iX"/>
                                     <constraint firstAttribute="trailing" secondItem="m8C-Gt-2gh" secondAttribute="trailing" constant="32" id="akl-lf-vil"/>
+                                    <constraint firstItem="foP-RC-y4I" firstAttribute="leading" secondItem="kTx-m2-Qc1" secondAttribute="leading" id="fRp-ch-Okq"/>
                                     <constraint firstItem="m8C-Gt-2gh" firstAttribute="top" secondItem="foc-O7-R7I" secondAttribute="top" id="hwH-yD-oCx"/>
                                     <constraint firstAttribute="trailing" secondItem="l47-WN-hjT" secondAttribute="trailing" constant="126" id="iBV-Uf-H0e"/>
                                     <constraint firstItem="m8C-Gt-2gh" firstAttribute="bottom" secondItem="foc-O7-R7I" secondAttribute="bottom" id="jTg-c5-dna"/>
@@ -215,8 +217,6 @@
                                     </constraint>
                                     <constraint firstAttribute="trailing" secondItem="l47-WN-hjT" secondAttribute="trailing" constant="8" id="mva-bi-DEO"/>
                                     <constraint firstItem="l47-WN-hjT" firstAttribute="top" secondItem="kTx-m2-Qc1" secondAttribute="top" constant="126" id="no0-u9-Jb3"/>
-                                    <constraint firstItem="x6m-tI-UPn" firstAttribute="leading" secondItem="kTx-m2-Qc1" secondAttribute="leading" id="rf5-hQ-D9K"/>
-                                    <constraint firstAttribute="bottom" secondItem="x6m-tI-UPn" secondAttribute="bottom" id="ycJ-v9-CrD"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
