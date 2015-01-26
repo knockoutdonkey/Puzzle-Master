@@ -8,7 +8,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
-
+#import "AppDelegate.h"
 #import "ViewController.h"
 #import "SettingsViewController.h"
 
@@ -43,12 +43,14 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
     self.puzzle.delegate = self;
-    
     [self createTimer];
     [self getHighScore];
     [self setNeedsStatusBarAppearanceUpdate];
+    NSArray *allpaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentspath = [allpaths objectAtIndex:0];
+    NSString *savfilepath = [documentspath stringByAppendingPathComponent:@"Puzzle.plist"];
+    self.puzzle = [NSKeyedUnarchiver unarchiveObjectWithFile:savfilepath];
     // [self startMusicLoop];
     
 }
@@ -102,6 +104,8 @@
     
     UIAlertAction *restartAction = [UIAlertAction actionWithTitle:@"Reset" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self.puzzle restartPuzzle];
+            AppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+            [delegate setObjectForDelegate:self.puzzle];
             [self restartTimer];
         }];
     [alert addAction:restartAction];
@@ -113,10 +117,12 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
--(void)createNewPuzzleWithWidthNum:(NSUInteger)widthNum
-                     withHeightNum:(NSUInteger)heightNum
+-(void)createNewPuzzleWithWidthNum:(NSInteger)widthNum
+                     withHeightNum:(NSInteger)heightNum
                          withImage:(UIImage *)image {
     [self.puzzle restartPuzzlewithWidthNum:widthNum withHeightNum:heightNum withImage:image];
+    AppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+    [delegate setObjectForDelegate:self.puzzle];
     [self restartTimer];
 }
 

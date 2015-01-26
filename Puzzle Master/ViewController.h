@@ -11,8 +11,8 @@
 
 @interface ViewController : UIViewController <PuzzleViewDelegate>
 
--(void)createNewPuzzleWithWidthNum:(NSUInteger)widthNum
-                     withHeightNum:(NSUInteger)heightNum
+-(void)createNewPuzzleWithWidthNum:(NSInteger)widthNum
+                     withHeightNum:(NSInteger)heightNum
                          withImage:(UIImage *)image;
 
 @end

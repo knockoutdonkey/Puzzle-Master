@@ -18,8 +18,8 @@
 @property (nonatomic, strong) NSMutableArray *pieces; //of PuzzlePieceViews
 
 // Number of Pieces across Width and Height of Puzzle
-@property (nonatomic) NSUInteger widthNum;
-@property (nonatomic) NSUInteger heightNum;
+@property (nonatomic) NSInteger widthNum;
+@property (nonatomic) NSInteger heightNum;
 
 // Pixel Width and Height of each Piece
 @property (nonatomic) CGFloat pieceWidth;
@@ -39,8 +39,8 @@
 #pragma mark - Instantiation
 
 -(instancetype)initWithFrame:(CGRect)frame
-                withWidthNum:(NSUInteger)widthNum
-               withHeightNum:(NSUInteger)heightNum
+                withWidthNum:(NSInteger)widthNum
+               withHeightNum:(NSInteger)heightNum
                    withImage:(UIImage *)puzzleImage{
     self = [super initWithFrame:frame];
     self.widthNum = widthNum;
@@ -287,7 +287,7 @@ double AMOUNT_OF_SUPERVIEW_HEIGHT_USED = .5;
     [self randomlyMovePieces];
 }
 
--(void)restartPuzzlewithWidthNum:(NSUInteger)widthNum withHeightNum:(NSUInteger)heightNum withImage:(UIImage *)puzzleImage {
+-(void)restartPuzzlewithWidthNum:(NSInteger)widthNum withHeightNum:(NSInteger)heightNum withImage:(UIImage *)puzzleImage {
     self.widthNum = widthNum;
     self.heightNum = heightNum;
     self.puzzleImage = puzzleImage;
@@ -345,4 +345,24 @@ double AMOUNT_OF_SUPERVIEW_HEIGHT_USED = .5;
     }
 }
 
+-(void)encodeWithCoder:(NSCoder *)coder{
+    [coder encodeObject:self.pieces forKey:@"pieces"];
+    [coder encodeInteger:self.widthNum forKey:@"widthNum"];
+    [coder encodeInteger:self.heightNum forKey:@"heightNum"];
+    [coder encodeFloat:self.pieceWidth forKey:@"pieceWidth"];
+    [coder encodeFloat:self.pieceHeight forKey:@"pieceHeight"];
+    [coder encodeObject:self.player forKey:@"player"];
+}
+
+-(id) initWithCoder:(NSCoder *)decoder{
+    self = [super init];
+    if(self) {
+        _pieces = [decoder decodeObjectForKey:@"pieces"];
+        _widthNum = [decoder decodeIntegerForKey:@"widthNum"];
+        _heightNum = [decoder decodeIntegerForKey:@"heightNum"];
+        _pieceWidth = [decoder decodeFloatForKey:@"pieceWidth"];
+        _pieceHeight = [decoder decodeFloatForKey:@"pieceHeight"];
+    }
+    return self;
+}
 @end

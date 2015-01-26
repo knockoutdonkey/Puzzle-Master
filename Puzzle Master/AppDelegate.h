@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PuzzleView.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (weak, nonatomic) PuzzleView *puzzle;
 
+-(void)setObjectForDelegate:(PuzzleView *)value;
 
 @end
 

@@ -13,19 +13,19 @@
 @interface PuzzleView : UIView
 
 @property (nonatomic, strong) UIImage *puzzleImage;
-@property (nonatomic, readonly) NSUInteger widthNum;
-@property (nonatomic, readonly) NSUInteger heightNum;
+@property (nonatomic, readonly) NSInteger widthNum;
+@property (nonatomic, readonly) NSInteger heightNum;
 
 @property (nonatomic, weak) id<PuzzleViewDelegate> delegate;
 
 -(instancetype)initWithFrame:(CGRect)frame
-              withWidthNum:(NSUInteger)widthNum
-             withHeightNum:(NSUInteger)heightNum
+              withWidthNum:(NSInteger)widthNum
+             withHeightNum:(NSInteger)heightNum
                    withImage:(UIImage *)puzzleImage;
 
 -(void)restartPuzzle;
--(void)restartPuzzlewithWidthNum:(NSUInteger)widthNum
-                   withHeightNum:(NSUInteger)heightNum
+-(void)restartPuzzlewithWidthNum:(NSInteger)widthNum
+                   withHeightNum:(NSInteger)heightNum
                        withImage:(UIImage *)puzzleImage;
 
 @end
